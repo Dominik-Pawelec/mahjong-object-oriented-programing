@@ -13,14 +13,13 @@ public class TileGroup {
         group = new ArrayList<Tile>(0);
         for(Tile arg : args){
             group.add(arg);
-            System.out.println("xxxx"); 
         }
     }
     public void Add(Tile tile){
         group.add(tile);
     }
 
-    public void Remove(Tile tile){
+    public void Remove(){
         group.remove(group.size()-1);
     }
 

@@ -1,4 +1,3 @@
-import java.util.Collection;
 import java.util.Collections;
 
 public class Wall extends TileGroup{
@@ -6,7 +5,6 @@ public class Wall extends TileGroup{
     public Wall(){
         super();
     }
-
     public void Build(){
         //generowanie 
         for(int i = 0; i < 4; i++){
@@ -27,13 +25,13 @@ public class Wall extends TileGroup{
     }
 
     public Tile DrawTile(){
-        return super.group.get(super.group.size()-1);
+        Tile temp = super.group.get(super.group.size()-1);
+        super.group.remove(super.group.size()-1);
+        return temp;
     }
 
     @Override
     public String toString(){
         return super.toString();
     }
-
-
 }

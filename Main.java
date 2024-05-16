@@ -14,5 +14,16 @@ public class Main {
 
         System.out.println(test_wall);
 
+        x = test_wall.DrawTile();
+
+        System.out.println(x);
+        System.out.println(test_wall);
+
+        Hand hand = new Hand();
+
+        System.out.println(hand.IsOpen());
+        hand.OpenBlock(test_group);
+        System.out.println(hand.IsOpen());
+
     }
 }
