@@ -5,7 +5,13 @@ public class River extends TileGroup{
         super();
     }
 
-    public Tile GetRecent(){
+    public Tile getRecent(){
         return recent_tile;
+    }
+
+    @Override
+    public void add(Tile tile){
+        group.add(tile);
+        recent_tile = tile;
     }
 }

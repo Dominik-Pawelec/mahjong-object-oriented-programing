@@ -15,16 +15,33 @@ public class TileGroup {
             group.add(arg);
         }
     }
-    public void Add(Tile tile){
+    public void add(Tile tile){
         group.add(tile);
     }
-
-    public void Remove(){
+    public void remove(){
         group.remove(group.size()-1);
     }
 
+    public void sort(){
+        group.sort(null);
+    }
+
+    protected int size(){
+        return group.size();
+    }
+    protected int nrOfElem(Tile tile){
+        int output = 0;
+
+        for(int i = 0; i < this.size(); i++){
+            if (group.get(i).compareTo(tile) == 0){output ++; }
+        }
+
+        return output;
+    }
+    
     @Override
     public String toString(){
         return group.toString();
     }
+    
 }
