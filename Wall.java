@@ -1,15 +1,25 @@
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class Wall extends TileGroup{
-    
-    public Wall(){
+    private static Wall instance = null;
+
+    private Wall(){
         super();
     }
-    public Wall(Tile...args){
+    private Wall(Tile...args){
         super(args);
     }
+    public static Wall getInstance(){
+        if (instance == null){
+            instance = new Wall();
+        }
+        return instance;
+    }
+
     public void build(){
-        //generowanie 
+        //generowanie
+        group = new ArrayList<>(0);
         for(int i = 0; i < 4; i++){
             String[] families = new String[]{"man","pin","sou","wind","dragon"}; 
             for(int j = 0; j < 3; j++){

@@ -21,6 +21,14 @@ public class TileGroup {
     public void remove(){
         group.remove(group.size()-1);
     }
+    public void remove(Tile t){
+        for(int i = 0; i < this.size(); i++){
+            if (group.get(i).compareTo(t) == 0){
+                group.remove(i);
+                return;
+            }
+        }
+    }
 
     public void sort(){
         group.sort(null);
@@ -35,7 +43,6 @@ public class TileGroup {
         for(int i = 0; i < this.size(); i++){
             if (group.get(i).compareTo(tile) == 0){output ++; }
         }
-
         return output;
     }
     

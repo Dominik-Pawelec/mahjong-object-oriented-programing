@@ -43,18 +43,21 @@ public class Hand extends TileGroup{
         return output;
     }
 
-    public void OpenBlock(TileGroup tile_g){ //assuming you CAN open this tileGroup
+    public void openBlock(TileGroup tile_g){ //assuming you CAN open this tileGroup
         opened_blocks.add(tile_g);
         for (int i = 0; i < tile_g.group.size(); i++){
             super.group.remove(tile_g.group.get(i));
         }
     }
 
-    public boolean IsOpen(){
+    public boolean isOpen(){
         return (opened_blocks.size()==0);
     }
+    
 
-    public void remove(Tile t){
-        super.group.remove(t);
+    @Override
+    public String toString(){
+        String output = "closed:" + super.toString() + "| opened:" + this.opened_blocks.toString();
+        return output;
     }
 }

@@ -15,7 +15,7 @@ public class Tile implements Comparable<Tile>{
     @Override
     public String toString(){
 
-        if(family == "wind"){ 
+        if(family == "wind"){
             String[] wind_list = new String[]{"E","S","W","N"};
             return wind_list[nr-1];
         }
