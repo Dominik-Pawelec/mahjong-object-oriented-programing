@@ -2,7 +2,7 @@ public class Player {
     Hand hand;
     River river;
     String wind;
-
+    //money etc.
     //autosort
 
     public Player(Hand h, River r){
@@ -25,6 +25,8 @@ public class Player {
     }
 
     
+
+    
     public Hand getHand(){
         return hand;
     }
@@ -36,6 +38,10 @@ public class Player {
     }
     public void setWind(String w){
         wind = w;
+    }
+    public void reset(){
+        hand = new Hand();
+        river = new River();
     }
 
 }

@@ -11,6 +11,11 @@ public class Main {
 
         game.printState();
 
+        game.prepareRound();
+
+        game.printState();
+
+        game.players.get(0).getHand().isWinning();
 
     }
 }

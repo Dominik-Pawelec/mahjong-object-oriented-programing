@@ -25,6 +25,7 @@ public class Game {
         Wall.getInstance().build();
 
         for(int p = 0; p < 4; p++){
+            players.get(p).reset();
             for(int i = 0; i < 13; i++){
                 players.get(p).draw();
             }
@@ -32,10 +33,22 @@ public class Game {
                 players.get(p).draw();
             }
         }
-
-
     }
     
+    public void hanchan(){
+
+        
+    }
+
+
+
+
+
+
+
+
+
+
 
     public void printState(){
         System.out.println("Game state:");

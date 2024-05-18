@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TileGroup {
+public class TileGroup{
     List<Tile> group;
 
     TileGroup(){
@@ -45,10 +45,14 @@ public class TileGroup {
         }
         return output;
     }
+    public Tile get(int n){
+        return group.get(n);
+    }
     
     @Override
     public String toString(){
         return group.toString();
     }
+    
     
 }
