@@ -13,6 +13,13 @@ public class Hand extends TileGroup{
         super(args);
         opened_blocks = new ArrayList<TileGroup>(0);
     }
+    public Hand(Hand copy){
+        super(copy);
+        opened_blocks = new ArrayList<TileGroup>(0);
+        for(int i = 0; i < copy.opened_blocks.size(); i++){
+            opened_blocks.add(new TileGroup(copy.opened_blocks.get(i)));
+        }
+    }
 
     public Boolean containsTile(Tile t){
         return (this.nrOfElem(t) != 0);
@@ -46,7 +53,7 @@ public class Hand extends TileGroup{
     public void openBlock(TileGroup tile_g){ //assuming you CAN open this tileGroup
         opened_blocks.add(tile_g);
         for (int i = 0; i < tile_g.group.size(); i++){
-            super.group.remove(tile_g.group.get(i));
+            this.remove(tile_g.group.get(i));
         }
     }
 
@@ -55,25 +62,11 @@ public class Hand extends TileGroup{
     }
 
     public boolean isWinning(){
-        try{
-
-        Hand hand_copy = (Hand)super.clone();//inaczej kopiowac
+        TileGroup hand_copy = new TileGroup(this);//kopiuje tylko część zamkniętą ręki (czyli zamierzony efekt)
         
         TileGroup pair_tiles = new TileGroup();
 
-        TileGroup all_tiles = new TileGroup();
-        String[] families = new String[]{"man","pin","sou","wind","dragon"};
-        for(int j = 0; j < 3; j++){
-            for(int k = 1; k < 10; k++){
-                all_tiles.add(new Tile(k, families[j]));
-            }
-        }
-        for(int k = 1; k < 5; k++){
-            all_tiles.add(new Tile(k, families[3]));
-        }
-        for(int k = 1; k < 4; k++){
-            all_tiles.add(new Tile(k, families[4]));
-        }
+        TileGroup all_tiles = new TileGroup("all");
 
         for(int i = 0; i < all_tiles.size(); i++){
             if(hand_copy.nrOfElem(all_tiles.get(i)) > 1){
@@ -81,25 +74,66 @@ public class Hand extends TileGroup{
             }
         }
 
-        System.out.println(pair_tiles);
+        //System.out.println(pair_tiles);
 
         hand_copy.sort();
-        System.out.println(hand_copy);
-        System.out.println(this);
+        
+        TileGroup tgroup;
 
+        //uwzględniamy że można było otworzyć np. 2 grupy, wtedy tylko 2 do sprawdzenia na ręce:
+        int blocks_to_find = 4 - opened_blocks.size();
+
+
+        for(int i = 0; i < pair_tiles.size(); i++){
+            //Algorytm: szukam dla 1 elementu czy można stworzyć pon, jeśli tak to usuwam 3 elementy i powtarzam aż nie puste
+            //jeśli nie to sprawdzam czy chi, jeśli tak to usuwam 3 elementy z chi i powstarzam ...
+            //jeśli nie to przechodze do kolejnej pary
+            //jesli pusta to zwracam prawda
+            //pozniejszy rozwoj o liste wszystkich wygranych z podziałem na bloki łatwe do zmienienia, po prostu do isty dodajesz i wykonujesz wszystkie przejscia.
+            tgroup = new TileGroup(hand_copy);
+            tgroup.remove(pair_tiles.get(i));
+            tgroup.remove(pair_tiles.get(i));
+
+            for(int k = 0; k < blocks_to_find; k++){
+                Tile temp = tgroup.get(0);
+                tgroup.remove(temp);
+                if(tgroup.nrOfElem(temp) >= 2){
+                    tgroup.remove(temp);
+                    tgroup.remove(temp);
+                }
+                else if((temp.getFamily() != "wind")&&(temp.getFamily() != "dragon")&&
+                    (tgroup.nrOfElem(new Tile(temp.getNr()+1, temp.getFamily())) != 0) && (tgroup.nrOfElem(new Tile(temp.getNr()+2, temp.getFamily())) !=0)){
+                    tgroup.remove(new Tile(temp.getNr()+1, temp.getFamily()));
+                    tgroup.remove(new Tile(temp.getNr()+2, temp.getFamily()));
+                }
+            }
+            if (tgroup.size() == 0) {return true;}
         }
-        catch(Exception e){System.out.println(e);}
+
 
         return false;
     }
 
-
-    
+    public TileGroup winningTiles(){
+        TileGroup output = new TileGroup();
+        TileGroup all_tiles = new TileGroup("all");
+        Hand temp_hand;
+        for(int i = 0; i < all_tiles.size(); i++){
+            temp_hand = new Hand(this);
+            temp_hand.add(all_tiles.get(i));
+            if(temp_hand.isWinning()){
+                output.add(all_tiles.get(i));
+            }
+        }
+        return output;
+    }
+    public boolean inTenpai(){//yaku sprawdza w innej czesci, potem todo
+        return(this.winningTiles().size() != 0);
+    }
 
     @Override
     public String toString(){
         String output = "closed:" + super.toString() + "| opened:" + this.opened_blocks.toString();
         return output;
     }
-
 }

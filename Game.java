@@ -4,6 +4,7 @@ import java.util.List;
 public class Game {
     List<Player> players;
     String round_wind;//more complex structure rememenbering repeats nr of round etc.
+    int whose_round;
 
     public Game(){
         players = new ArrayList<Player>();
@@ -37,10 +38,11 @@ public class Game {
     
     public void hanchan(){
 
-        
+
+
     }
 
-
+    
 
 
 

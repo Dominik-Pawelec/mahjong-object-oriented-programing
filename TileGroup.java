@@ -5,16 +5,41 @@ import java.util.List;
 public class TileGroup{
     List<Tile> group;
 
-    TileGroup(){
+    public TileGroup(){
         group = new ArrayList<Tile>(0);
     }
 
-    TileGroup(Tile...args){
+    public TileGroup(Tile...args){
         group = new ArrayList<Tile>(0);
         for(Tile arg : args){
             group.add(arg);
         }
     }
+    public TileGroup(TileGroup copy){
+        this.group = new ArrayList<Tile>(0);
+        for(int i = 0; i < copy.size(); i++){
+            this.add(copy.get(i));
+        }
+    }
+
+    public TileGroup(String x){
+        group = new ArrayList<Tile>(0);
+        if(x == "all"){
+            String[] families = new String[]{"man","pin","sou","wind","dragon"};
+            for(int j = 0; j < 3; j++){
+                for(int k = 1; k < 10; k++){
+                    this.add(new Tile(k, families[j]));
+                }
+            }
+            for(int k = 1; k < 5; k++){
+                this.add(new Tile(k, families[3]));
+            }
+            for(int k = 1; k < 4; k++){
+                this.add(new Tile(k, families[4]));
+            }
+        }
+    }
+
     public void add(Tile tile){
         group.add(tile);
     }
@@ -34,7 +59,7 @@ public class TileGroup{
         group.sort(null);
     }
 
-    protected int size(){
+    public int size(){
         return group.size();
     }
     protected int nrOfElem(Tile tile){

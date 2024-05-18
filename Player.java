@@ -4,6 +4,7 @@ public class Player {
     String wind;
     //money etc.
     //autosort
+    boolean in_riichi = false;
 
     public Player(Hand h, River r){
         hand = h;
@@ -23,6 +24,8 @@ public class Player {
         hand.remove(t);
         river.add(t);
     }
+
+    
 
     
 

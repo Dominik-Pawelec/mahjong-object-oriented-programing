@@ -1,12 +1,61 @@
 import java.util.Arrays;
 
-public class Tile implements Comparable<Tile>{
+public final class Tile implements Comparable<Tile>{
     int nr;
     String family;
 
     Tile(int nr, String family){
         this.nr = nr;
         this.family = family;//{"man","pin","sou","dragon","wind"}
+    }
+    Tile(String xs){
+        if(xs.length() == 1){
+            switch(xs){
+                case "E":{
+                    this.nr = 1;
+                    family = "wind";break;
+                }
+                case "S":{
+                    this.nr = 2;
+                    family = "wind";break;
+                }
+                case "W":{
+                    this.nr = 3;
+                    family = "wind";break;
+                }
+                case "N":{
+                    this.nr = 4;
+                    family = "wind";break;
+                }
+                case "R":{
+                    this.nr = 1;
+                    family = "dragon";break;
+                }
+                case "B":{
+                    this.nr = 2;
+                    family = "dragon";break;
+                }
+                case "G":{
+                    this.nr = 3;
+                    family = "dragon";break;
+                }
+            }
+            return;
+        }
+        this.nr = xs.charAt(0)-'0';
+        
+        char temp = xs.charAt(1);
+        System.out.println(temp);
+        switch(temp){
+            case 'm':
+                this.family = "man";break;
+            case 'p':
+                this.family = "pin";break;
+            case 's':
+                this.family = "sou";break;
+            default:
+                this.family = "wont hapen";break;
+        }
     }
 
     public int getNr(){ return nr; }
