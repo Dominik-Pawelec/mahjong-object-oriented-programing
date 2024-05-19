@@ -10,8 +10,14 @@ public class Game {
         players = new ArrayList<Player>();
     }
 
+    public Game(Player p1){
+        players = new ArrayList<Player>();
+        players.add(p1);
+    }
+
     public void startHanchan(){
-        for(int i = 0; i < 4; i++){
+        int temp = players.size();
+        for(int i = 0; i < 4-temp; i++){
             players.add(new Player());
         }
         players.get(0).setWind("east");
@@ -31,9 +37,7 @@ public class Game {
             for(int i = 0; i < 13; i++){
                 players.get(p).draw();
             }
-            if(players.get(p).getWind() == "east"){
-                players.get(p).draw();
-            }
+            
         }
 
         //start();
@@ -41,8 +45,10 @@ public class Game {
     
     public void start(){
         GameLogic gl = new GameLogic();
-        while(Wall.getInstance().size() > 14){
+        while(Wall.getInstance().size() > 10){
             gl.takeTurn();
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
         }
 
         System.out.println("Game has ended");
@@ -60,8 +66,13 @@ public class Game {
         }
 
         public synchronized void takeTurn(){
-            Tile recent_discard = players.get(curr_player_index).takeTurn();
-            System.out.println(players.get(curr_player_index).getWind() +" "+ players.get(curr_player_index) + ": " +recent_discard);
+            players.get(curr_player_index).draw();
+            players.get(curr_player_index).getHand().sort();
+            printState();
+            players.get(curr_player_index).discard(players.get(curr_player_index).chooseToDiscard());
+            Tile recent_discard = players.get(curr_player_index).getRiver().getRecent();
+            //System.out.println(players.get(curr_player_index).getWind() +" "+ players.get(curr_player_index) + ": " +recent_discard);
+            
             is_players_turn = false;
             ////
 
@@ -78,7 +89,9 @@ public class Game {
 
             }catch(Exception e){}
         }
-        public synchronized void analyse(){
+        
+
+        public synchronized void analyseDiscarded(Tile disard_tile){
 
 
         }
@@ -94,16 +107,10 @@ public class Game {
     
 
 
-    public void printState(){//To modify
+    public void printState(){
         System.out.println("Game state:");
         for(int i = 0; i < 4; i++){
-            System.out.print("player ");
-            System.out.print(i+1);
-            System.out.println(":");
-            System.out.print("\thand: ");
-            System.out.println(players.get(i).getHand());
-            System.out.print("\triver: ");
-            System.out.println(players.get(i).getRiver());
+            System.out.println(players.get(i));
         }
     }
 }

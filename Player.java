@@ -28,7 +28,12 @@ public class Player{
         }
         //System.out.println("Player doesn,'t contain tile:" + t + " . Operation ignored");
     }
+    public void call(TileGroup tile_group, Tile t){//inaczej kształt w zaleznosci od tego od kogo kradnie etc. :c
+        getHand().add(t);
+        getHand().openBlock(tile_group);
+    }
 
+    //bez kan'a (kan na samym końcu)
     public boolean canChi(Tile t){
         return (getHand().chiOptions(t).size() != 0);
     }
@@ -44,13 +49,9 @@ public class Player{
         ron_hand.add(t);
         return(ron_hand.isWinning());
     }
-    public boolean canTsumo(Tile t){//nie jest konieczny argument do samej wygranej, ale pinfu czy fu juz tak
+    public boolean canTsumo(){//nie jest konieczny argument do samej wygranej, ale pinfu czy fu juz tak
         return(getHand().isWinning());
     }
-
-    
-    
-    
 
     
     public Hand getHand(){
@@ -70,21 +71,36 @@ public class Player{
         river = new River();
     }
 
-    public Tile takeTurn(){//zamienić na: logika wyboru odrzutu
-        draw();
+
+
+    ///DIFFERENT AMONG SUBCLASSES
+    public Tile chooseToDiscard(){//zamienić na: logika wyboru odrzutu
         //logic of discarding (for player: input, for bot: random/algorithm) (this: random)
+        getHand().sort();
         TileGroup all_tiles = new TileGroup("all");
         all_tiles.shuffle();
         Tile temp = new Tile("1m");
         for(int i = 0; i < all_tiles.size(); i++){
             temp = all_tiles.get(i);
             if(hand.containsTile(temp)){
-                break;
+                return temp;
             }
         }
-        //
-        discard(temp);
-        return river.getRecent();
+        return temp;
+    }
+    public boolean chooseToTsumo(){
+        return canTsumo();
+    }
+    /*public boolean chooseToRon(Tile t){
+        return canRon(t);
+    }
+    public boolean chooseToChi(Tile t){
+        return canChi(t);
+    }*/
+    /////////THE SAME:
+    @Override
+    public String toString(){
+        return (getHand().toString() + getRiver().toString());
     }
 
 }
