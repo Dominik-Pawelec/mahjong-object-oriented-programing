@@ -54,6 +54,13 @@ public class Game {
         System.out.println("Game has ended");
     }
 
+    public void end(){
+        System.out.println("PLAYER WON");
+        //changing winds
+        prepareRound();
+        start();
+    }
+
     
     public class GameLogic{
 
@@ -65,12 +72,20 @@ public class Game {
             curr_player_index = start_index;
         }
 
-        public synchronized void takeTurn(){
+        public void takeTurn(){
             players.get(curr_player_index).draw();
             players.get(curr_player_index).getHand().sort();
             printState();
+
+            if(players.get(curr_player_index).chooseToTsumo()){//zamiast getHand().isWinning();
+                end();
+                return;
+            }
+
             players.get(curr_player_index).discard(players.get(curr_player_index).chooseToDiscard());
             Tile recent_discard = players.get(curr_player_index).getRiver().getRecent();
+
+            analyseDiscarded(recent_discard);
             //System.out.println(players.get(curr_player_index).getWind() +" "+ players.get(curr_player_index) + ": " +recent_discard);
             
             is_players_turn = false;
@@ -89,10 +104,10 @@ public class Game {
 
             }catch(Exception e){}
         }
-        
 
-        public synchronized void analyseDiscarded(Tile disard_tile){
 
+        public void analyseDiscarded(Tile disard_tile){
+            //multithreading: send each player discarded tile and if they can chi, then they make choices based on whether they want to call it or not 
 
         }
 
