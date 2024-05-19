@@ -1,6 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
 
 public class TileGroup{
     List<Tile> group;
@@ -58,6 +58,9 @@ public class TileGroup{
     public void sort(){
         group.sort(null);
     }
+    public void shuffle(){
+        Collections.shuffle(group);
+    }
 
     public int size(){
         return group.size();
@@ -78,6 +81,4 @@ public class TileGroup{
     public String toString(){
         return group.toString();
     }
-    
-    
 }

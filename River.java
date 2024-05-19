@@ -1,6 +1,8 @@
 public class River extends TileGroup{
     Tile recent_tile;
 
+    //Pair <TileGroup,Player> stolen_tiles;
+
     public River(){
         super();
     }

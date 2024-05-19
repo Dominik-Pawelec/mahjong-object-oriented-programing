@@ -45,7 +45,7 @@ public final class Tile implements Comparable<Tile>{
         this.nr = xs.charAt(0)-'0';
         
         char temp = xs.charAt(1);
-        System.out.println(temp);
+
         switch(temp){
             case 'm':
                 this.family = "man";break;

@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collections;
+
 
 public class Wall extends TileGroup{
     private static Wall instance = null;
@@ -34,7 +34,7 @@ public class Wall extends TileGroup{
                 this.add(new Tile(k, families[4]));
             }
         }
-        Collections.shuffle(group);
+        shuffle();
     }
 
     public Tile drawTile(){
