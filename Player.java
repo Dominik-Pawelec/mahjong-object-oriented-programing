@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Player{
     Hand hand;
     River river;
@@ -5,6 +9,8 @@ public class Player{
     //money etc.
     //autosort
     boolean in_riichi = false;
+
+    CallPackage call_package;
 
     public Player(Hand h, River r){
         hand = h;
@@ -28,9 +34,47 @@ public class Player{
         }
         //System.out.println("Player doesn,'t contain tile:" + t + " . Operation ignored");
     }
-    public void call(TileGroup tile_group, Tile t){//inaczej kształt w zaleznosci od tego od kogo kradnie etc. :c
-        getHand().add(t);
-        getHand().openBlock(tile_group);
+    public CallPackage call(CallPackage input_package){//inaczej kształt w zaleznosci od tego od kogo kradnie etc. :c
+        CallPackage output_package = new CallPackage(input_package); 
+        Tile temp_tile = output_package.getTile();
+
+        //prepares list of all calls and makes player choose one of them (choosing is part of player's interface)
+        List<String> possible_calls = new ArrayList<String>(0);
+        String[] wind_list = new String[]{"east","south","west","north"};
+        if(canChi(temp_tile) && (wind_list[(Arrays.asList(wind_list).indexOf(output_package.getWind())+1)%4] == wind)){ //whatthefuck
+            possible_calls.add("chi");
+        }
+        if(canPon(temp_tile)){possible_calls.add("pon");}
+        if(canRon(temp_tile)){possible_calls.add("ron");}
+
+        if(possible_calls.size()==0){
+            output_package.preparePackage(false, null, null);
+            return output_package;
+        }
+
+        String chosen_call = chooseCall(possible_calls);
+        
+        TileGroup group;
+        switch (chosen_call) {
+            case "skip":
+                output_package.preparePackage(false, null, null);
+                return output_package;
+            case "ron":
+                output_package.preparePackage(true, chosen_call, null);
+                return output_package;
+            case "chi":
+                if(getHand().chiOptions(temp_tile).size() == 1){group = getHand().chiOptions(temp_tile).get(0);}
+                else {group = new TileGroup(chooseGroup(getHand().chiOptions(temp_tile)));}
+                output_package.preparePackage(true, chosen_call, group);
+                return output_package;
+            case "pon":
+                if(getHand().ponOptions(temp_tile).size() == 1){group = new TileGroup(getHand().ponOptions(temp_tile).get(0));}
+                else {group = new TileGroup(chooseGroup(getHand().ponOptions(temp_tile)));}
+                output_package.preparePackage(true, chosen_call, group);
+                return output_package;
+            default:
+                return output_package;
+        }
     }
 
     //bez kan'a (kan na samym końcu)
@@ -90,18 +134,24 @@ public class Player{
         }
         return temp;
     }
+
     public boolean chooseToTsumo(){
         return true;
     }
-    public boolean chooseToRon(Tile t){
-        return true;
-    }
+    
     /*public boolean chooseToChi(Tile t){
         return canChi(t);
     }*/
-    //public boolean chooseToCall(Tile t) {
+    public String chooseCall(List<String> possible_calls) {
 
-    //}
+        if(possible_calls.contains("ron")){return "ron";}
+
+        return "skip";//"skip","ron","chi","pon"
+    }
+    public TileGroup chooseGroup(List<TileGroup> groups){
+
+        return groups.get(0);
+    }
 
     /////////THE SAME:
     @Override
