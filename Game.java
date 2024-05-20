@@ -37,13 +37,35 @@ public class Game {
             for(int i = 0; i < 13; i++){
                 players.get(p).draw();
             }
-            
         }
+
+        players.get((0 + start_index) % 4).setWind("east");
+        players.get((1 + start_index) % 4).setWind("south");
+        players.get((2 + start_index) % 4).setWind("west");
+        players.get((3 + start_index) % 4).setWind("north");
+
+        //start();
+    }
+    public void prepareRound(Hand h){
+        Wall.getInstance().build();
+        players.get(0).setHand(h);
+        for(int p = 1; p < 4; p++){
+            players.get(p).reset();
+            for(int i = 0; i < 13; i++){
+                players.get(p).draw();
+            }
+        }
+
+        players.get((0 + start_index) % 4).setWind("east");
+        players.get((1 + start_index) % 4).setWind("south");
+        players.get((2 + start_index) % 4).setWind("west");
+        players.get((3 + start_index) % 4).setWind("north");
 
         //start();
     }
     
     public void start(){
+        
         GameLogic gl = new GameLogic();
         while(Wall.getInstance().size() > 10){
             gl.takeTurn();
@@ -54,9 +76,19 @@ public class Game {
         System.out.println("Game has ended");
     }
 
-    public void end(){
-        System.out.println("PLAYER WON");
+    public void end(Player player, Tile winning_tile){
+        System.out.println(player.getWind() + " - " + player.getHand() + " on tile: " + winning_tile);
         //changing winds
+
+        if(player.getWind() != "east"){
+            start_index ++;
+        }
+
+        try{
+            Thread.sleep(3000);
+
+        }catch(Exception e){}
+
         prepareRound();
         start();
     }
@@ -67,23 +99,27 @@ public class Game {
         boolean is_players_turn = false;
         int curr_player_index;
         int nr = 0;
+        Tile recent_drawn;
 
         GameLogic(){
             curr_player_index = start_index;
         }
 
         public void takeTurn(){
-            players.get(curr_player_index).draw();
-            players.get(curr_player_index).getHand().sort();
+            Player curr_player = players.get(curr_player_index); 
+            recent_drawn = curr_player.draw();
+            curr_player.getHand().sort();
             printState();
 
-            if(players.get(curr_player_index).chooseToTsumo()){//zamiast getHand().isWinning();
-                end();
-                return;
+            if(curr_player.getHand().isWinning()){//zamiast getHand().isWinning();
+                if(curr_player.chooseToTsumo()){
+                    end(curr_player, recent_drawn);
+                    return;
+                }
             }
 
-            players.get(curr_player_index).discard(players.get(curr_player_index).chooseToDiscard());
-            Tile recent_discard = players.get(curr_player_index).getRiver().getRecent();
+            curr_player.discard(players.get(curr_player_index).chooseToDiscard());
+            Tile recent_discard = curr_player.getRiver().getRecent();
 
             analyseDiscarded(recent_discard);
             //System.out.println(players.get(curr_player_index).getWind() +" "+ players.get(curr_player_index) + ": " +recent_discard);
@@ -108,7 +144,7 @@ public class Game {
 
         public void analyseDiscarded(Tile disard_tile){
             //multithreading: send each player discarded tile and if they can chi, then they make choices based on whether they want to call it or not 
-
+            
         }
 
 
@@ -125,7 +161,7 @@ public class Game {
     public void printState(){
         System.out.println("Game state:");
         for(int i = 0; i < 4; i++){
-            System.out.println(players.get(i));
+            System.out.println(players.get(i).getWind() + ": "+ players.get(i));
         }
     }
 }

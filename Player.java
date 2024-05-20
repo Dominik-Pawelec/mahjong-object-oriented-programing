@@ -15,10 +15,10 @@ public class Player{
         river = new River();
     }
 
-    public void draw(){
+    public Tile draw(){
         Wall wall = Wall.getInstance();
 
-        hand.add(wall.drawTile());
+        return hand.add(wall.drawTile());
     }
     public void discard(Tile t){
         if(hand.containsTile(t)){
@@ -53,7 +53,9 @@ public class Player{
         return(getHand().isWinning());
     }
 
-    
+    public void setHand(Hand h){
+        hand = h;
+    }
     public Hand getHand(){
         return hand;
     }

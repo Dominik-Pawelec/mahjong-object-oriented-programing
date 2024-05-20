@@ -1,12 +1,12 @@
 import java.util.Scanner;
 
-public class HumanPlayer extends Player {
+public class Human extends Player {
     Scanner input;
-    public HumanPlayer(Hand h, River r){
+    public Human(Hand h, River r){
         super(h,r);
         input = new Scanner(System.in);
     }
-    public HumanPlayer(){
+    public Human(){
         super();
         input = new Scanner(System.in);
     }

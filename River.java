@@ -14,9 +14,10 @@ public class River extends TileGroup{
     }
 
     @Override
-    public void add(Tile tile){
+    public Tile add(Tile tile){
         group.add(tile);
         recent_tile = tile;
+        return tile;
     }
     public String toString(){
         String output = "";

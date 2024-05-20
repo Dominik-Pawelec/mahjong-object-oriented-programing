@@ -40,8 +40,9 @@ public class TileGroup{
         }
     }
 
-    public void add(Tile tile){
+    public Tile add(Tile tile){
         group.add(tile);
+        return tile;
     }
     public void remove(){
         group.remove(group.size()-1);

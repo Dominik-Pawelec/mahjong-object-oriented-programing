@@ -69,12 +69,14 @@ public class Hand extends TileGroup{
         TileGroup all_tiles = new TileGroup("all");
 
         for(int i = 0; i < all_tiles.size(); i++){
-            if(hand_copy.nrOfElem(all_tiles.get(i)) > 1){
+            if(hand_copy.nrOfElem(all_tiles.get(i)) > 1 && pair_tiles.nrOfElem(all_tiles.get(i)) == 0){
                 pair_tiles.add(all_tiles.get(i));
             }
         }
 
-        //System.out.println(pair_tiles);
+        if(pair_tiles.size() == 7){//7 par in my heart
+            return true;
+        }
 
         hand_copy.sort();
         
@@ -82,7 +84,6 @@ public class Hand extends TileGroup{
 
         //uwzględniamy że można było otworzyć np. 2 grupy, wtedy tylko 2 do sprawdzenia na ręce:
         int blocks_to_find = 4 - opened_blocks.size();
-
 
         for(int i = 0; i < pair_tiles.size(); i++){
             //Algorytm: szukam dla 1 elementu czy można stworzyć pon, jeśli tak to usuwam 3 elementy i powtarzam aż nie puste

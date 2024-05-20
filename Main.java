@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args)
     {
 
-        Game game = new Game(new HumanPlayer());
+        Game game = new Game(new Human());
 
         game.startHanchan();
         game.prepareRound();
@@ -12,5 +12,6 @@ public class Main {
         game.printState();
 
         game.start();
+        
     }
 }
