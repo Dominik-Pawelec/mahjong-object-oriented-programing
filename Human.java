@@ -34,4 +34,15 @@ public class Human extends Player {
         if(inp == "n" || inp == "no"){return false;}
         return true;
     }
+    public boolean chooseToRon(){
+        System.out.print("Ron? (Y/n)");
+        
+        String inp = input.next();
+
+        if(inp == "n" || inp == "no"){return false;}
+        return true;
+    }
+
+
+
 }

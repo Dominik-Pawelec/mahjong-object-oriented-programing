@@ -91,14 +91,18 @@ public class Player{
         return temp;
     }
     public boolean chooseToTsumo(){
-        return canTsumo();
+        return true;
     }
-    /*public boolean chooseToRon(Tile t){
-        return canRon(t);
+    public boolean chooseToRon(Tile t){
+        return true;
     }
-    public boolean chooseToChi(Tile t){
+    /*public boolean chooseToChi(Tile t){
         return canChi(t);
     }*/
+    //public boolean chooseToCall(Tile t) {
+
+    //}
+
     /////////THE SAME:
     @Override
     public String toString(){

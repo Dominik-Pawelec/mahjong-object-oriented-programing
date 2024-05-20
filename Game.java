@@ -76,7 +76,7 @@ public class Game {
         System.out.println("Game has ended");
     }
 
-    public void end(Player player, Tile winning_tile){
+    public void end(Player player, Tile winning_tile){//now only 1 player can win, might more than one
         System.out.println(player.getWind() + " - " + player.getHand() + " on tile: " + winning_tile);
         //changing winds
 
@@ -108,6 +108,7 @@ public class Game {
         public void takeTurn(){
             Player curr_player = players.get(curr_player_index); 
             recent_drawn = curr_player.draw();
+
             curr_player.getHand().sort();
             printState();
 
@@ -143,7 +144,7 @@ public class Game {
 
 
         public void analyseDiscarded(Tile disard_tile){
-            //multithreading: send each player discarded tile and if they can chi, then they make choices based on whether they want to call it or not 
+            
             
         }
 
