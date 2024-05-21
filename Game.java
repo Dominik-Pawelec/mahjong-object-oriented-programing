@@ -28,6 +28,12 @@ public class Game {
     }
 
     public void prepareRound(){
+
+        if(start_index > 4){
+            endResults();
+            return;
+        }
+
         Wall.getInstance().build();
 
         for(int p = 0; p < 4; p++){
@@ -64,6 +70,9 @@ public class Game {
     }
     
     public void start(){
+        if(start_index > 3){
+            endResults();
+        }
         
         GameLogic gl = new GameLogic();
         while(Wall.getInstance().size() > 14){
@@ -73,7 +82,7 @@ public class Game {
             System.out.println("===========================================");
         }
 
-        System.out.println("Game has ended");
+        ryukuoku();
     }
 
     public void end(Player player, Tile winning_tile){//now only 1 player can win, might more than one; plus doesnt treat is correctly (in ron)
@@ -85,14 +94,35 @@ public class Game {
         }
 
         try{
-            Thread.sleep(5000);
+            Thread.sleep(3000);
 
         }catch(Exception e){}
 
         prepareRound();
         start();
     }
+    public void ryukuoku(){
+        System.out.println("ryukyoku");
+        try{
+            Thread.sleep(3000);
 
+        }catch(Exception e){}
+        for(int i = 0; i < 4; i++){
+            if (players.get(i).getWind().equals("east") && players.get(i).getHand().inTenpai()){
+                prepareRound();
+                start();
+                return;   
+            }
+        }
+        start_index ++;
+        prepareRound();
+        start();
+        return; 
+    }
+
+    public void endResults(){
+        System.out.println("GAME HAS ENDED SUCCESFULLY");
+    }
     
     public class GameLogic{
 
@@ -129,7 +159,7 @@ public class Game {
             curr_player_index = (curr_player_index+1)%4;
 
             try{
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
 
             }catch(Exception e){}
         }
