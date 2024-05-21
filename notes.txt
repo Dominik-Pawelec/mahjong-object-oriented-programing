@@ -1,0 +1,8 @@
+- dodać rozroznienie przy callu jaki kanmien wylecial
+- dodac zaznaczenie ktory kamien byl wlasnie dobrany w graczu
+
+TODO:
+- riichi
+- kalkualtor yaku
+- boty jako osobna klasa
+

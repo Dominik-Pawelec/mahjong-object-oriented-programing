@@ -1,8 +1,9 @@
 import java.util.Arrays;
 
 public final class Tile implements Comparable<Tile>{
-    int nr;
+    int nr; //make private
     String family;
+
 
     Tile(int nr, String family){
         this.nr = nr;
