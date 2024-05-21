@@ -40,7 +40,7 @@ public class Hand extends TileGroup{
         if (this.containsTile(new Tile(t.getNr()+1, t.getFamily())) && this.containsTile(new Tile(t.getNr()+2, t.getFamily()))){
             output.add(new TileGroup(new Tile(t.getNr(), t.getFamily()),new Tile(t.getNr()+1, t.getFamily()),new Tile(t.getNr()+2, t.getFamily())));
         }
-        //System.out.println(output);
+        
         return output;
     }
     public List<TileGroup> ponOptions(Tile t){

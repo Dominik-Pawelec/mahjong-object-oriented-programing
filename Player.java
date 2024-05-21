@@ -81,6 +81,7 @@ public class Player{
                 output_package.preparePackage(true, chosen_call, group);
                 return output_package;
             default:
+                output_package.preparePackage();
                 return output_package;
         }
     }

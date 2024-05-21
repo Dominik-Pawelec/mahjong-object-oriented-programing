@@ -70,20 +70,10 @@ public class Game {
     }
     
     public void start(){
-        if(start_index > 3){
-            endResults();
-        }
-        
         GameLogic gl = new GameLogic();
-        while(Wall.getInstance().size() > 14){
-            gl.takeTurn();
-            //System.out.print("\033[H\033[2J");
-            //System.out.flush();
-            System.out.println("===========================================");
-        }
-
-        ryukuoku();
+        gl.mainLoop();
     }
+
 
     public void end(Player player, Tile winning_tile){//now only 1 player can win, might more than one; plus doesnt treat is correctly (in ron)
         System.out.println(player.getWind() + " - " + player.getHand() + " on tile: " + winning_tile);
@@ -131,8 +121,24 @@ public class Game {
         int nr = 0;
         Tile recent_drawn;
 
+        boolean someone_win;
+        Player winner;
+        Tile winning_tile;
+
         GameLogic(){
-            curr_player_index = start_index;
+            curr_player_index = start_index%4;
+            someone_win = false;
+        }
+        public void mainLoop(){
+            if(start_index > 3){
+                endResults();
+                return;
+            }
+            while(Wall.getInstance().size() > 14 && !someone_win){
+                takeTurn();
+            }
+            if(someone_win){end(winner,winning_tile);return;}
+            ryukuoku();
         }
 
         public void takeTurn(){
@@ -142,9 +148,10 @@ public class Game {
             curr_player.getHand().sort();
             printState();
 
-            if(curr_player.getHand().isWinning()){//zamiast getHand().isWinning();
+            if(curr_player.getHand().isWinning()){
                 if(curr_player.chooseToTsumo()){
-                    end(curr_player, recent_drawn);
+                    winner = curr_player;
+                    winning_tile = recent_drawn;
                     return;
                 }
             }
@@ -191,6 +198,7 @@ public class Game {
             for(int i = 0; i < 4; i++){
                 packages.add( players.get(i).makePackage(input_package));
             }
+
             boolean is_call = false;
             String[] call_list = new String[4];
             for(int i = 0; i < 4; i++){
@@ -206,7 +214,8 @@ public class Game {
             //search for rons: pozniej: dodaje do lsity wygranych
             for(int i = 0; i < 4; i++){
                 if(call_list[i].equals("ron")){
-                    end(players.get(i), disard_tile);
+                    winner = players.get(i);
+                    winning_tile = disard_tile;
                     return;
                 }
             }

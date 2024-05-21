@@ -1,5 +1,3 @@
-
-
 public class CallPackage {
     Tile tile;
     String wind;
