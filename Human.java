@@ -39,7 +39,7 @@ public class Human extends Player {
         System.out.println("skip? or:" + possible_calls);
         
         String inp = input.next();
-        if(inp.equals("chi") || inp.equals("pon") || inp.equals("skip") || inp.equals("ron")){return inp;}
+        if((inp.equals("chi") || inp.equals("pon") || inp.equals("skip") || inp.equals("ron"))&&(possible_calls.contains(inp))){return inp;}
 
         System.out.println("Wrong input. Choose another:");
         return chooseCall(possible_calls);

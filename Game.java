@@ -24,12 +24,11 @@ public class Game {
         
         round_wind = "east";
         start_index = 0;
-
     }
 
     public void prepareRound(){
 
-        if(start_index > 4){
+        if(start_index > 4){//pppp(marker)
             endResults();
             return;
         }
@@ -48,7 +47,7 @@ public class Game {
         players.get((2 + start_index) % 4).setWind("west");
         players.get((3 + start_index) % 4).setWind("north");
 
-        //start();
+        
     }
     public void prepareRound(Hand h){
         Wall.getInstance().build();
@@ -130,7 +129,7 @@ public class Game {
             someone_win = false;
         }
         public void mainLoop(){
-            if(start_index > 3){
+            if(start_index > 3){// + zalezne od kasy graczy
                 endResults();
                 return;
             }
@@ -145,6 +144,7 @@ public class Game {
             Player curr_player = players.get(curr_player_index); 
             recent_drawn = curr_player.draw();
 
+
             curr_player.getHand().sort();
             printState();
 
@@ -152,6 +152,7 @@ public class Game {
                 if(curr_player.chooseToTsumo()){
                     winner = curr_player;
                     winning_tile = recent_drawn;
+                    someone_win = true;
                     return;
                 }
             }
@@ -166,7 +167,7 @@ public class Game {
             curr_player_index = (curr_player_index+1)%4;
 
             try{
-                //Thread.sleep(1000);
+                Thread.sleep(500);
 
             }catch(Exception e){}
         }
@@ -216,6 +217,7 @@ public class Game {
                 if(call_list[i].equals("ron")){
                     winner = players.get(i);
                     winning_tile = disard_tile;
+                    someone_win = true;
                     return;
                 }
             }
@@ -235,6 +237,8 @@ public class Game {
     }
 
     public void printState(){
+        System.out.print("\033[H\033[2J");  
+            System.out.flush(); 
         System.out.println("Game state:");
         for(int i = 0; i < 4; i++){
             System.out.println(players.get(i).getWind() + ": "+ players.get(i));
