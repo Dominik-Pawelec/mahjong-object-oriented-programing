@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Game {
@@ -20,13 +21,10 @@ public class Game {
         for(int i = 0; i < 4-temp; i++){
             players.add(new Player());
         }
-        players.get(0).setWind("east");
-        players.get(1).setWind("south");
-        players.get(2).setWind("west");
-        players.get(3).setWind("north");
-
+        
         round_wind = "east";
         start_index = 0;
+
     }
 
     public void prepareRound(){
@@ -55,6 +53,7 @@ public class Game {
                 players.get(p).draw();
             }
         }
+        //Collections.shuffle(players);//temp!!!!!!!!!!!!!!!!!!
 
         players.get((0 + start_index) % 4).setWind("east");
         players.get((1 + start_index) % 4).setWind("south");
@@ -67,25 +66,26 @@ public class Game {
     public void start(){
         
         GameLogic gl = new GameLogic();
-        while(Wall.getInstance().size() > 10){
+        while(Wall.getInstance().size() > 14){
             gl.takeTurn();
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+            //System.out.print("\033[H\033[2J");
+            //System.out.flush();
+            System.out.println("===========================================");
         }
 
         System.out.println("Game has ended");
     }
 
-    public void end(Player player, Tile winning_tile){//now only 1 player can win, might more than one
+    public void end(Player player, Tile winning_tile){//now only 1 player can win, might more than one; plus doesnt treat is correctly (in ron)
         System.out.println(player.getWind() + " - " + player.getHand() + " on tile: " + winning_tile);
         //changing winds
 
-        if(player.getWind() != "east"){
+        if(!player.getWind().equals("east")){
             start_index ++;
         }
 
         try{
-            Thread.sleep(3000);
+            Thread.sleep(5000);
 
         }catch(Exception e){}
 
@@ -119,45 +119,81 @@ public class Game {
                 }
             }
 
-            curr_player.discard(players.get(curr_player_index).chooseToDiscard());
+            curr_player.discard(curr_player.chooseToDiscard());
             Tile recent_discard = curr_player.getRiver().getRecent();
+            printState();
+
 
             analyseDiscarded(recent_discard);
-            //System.out.println(players.get(curr_player_index).getWind() +" "+ players.get(curr_player_index) + ": " +recent_discard);
-            
-            is_players_turn = false;
-            ////
 
-
-
-            //sprawdzenie czy nikt nie kradnie, jeśli nie kradnie to:
             curr_player_index = (curr_player_index+1)%4;
-            is_players_turn = true;
-            //System.out.println(nr);
-            //nr ++;
 
             try{
-                Thread.sleep(400);
+                Thread.sleep(1000);
 
             }catch(Exception e){}
         }
 
+        public void discardTurn(int prev_id,int steal_id, CallPackage call_pack){
+            curr_player_index = steal_id;
+            Player curr_player = players.get(steal_id);
+            Tile stolen = players.get(prev_id).getRiver().getRecent();
+            players.get(prev_id).getRiver().remove();
 
-        public void analyseDiscarded(Tile disard_tile){
+            curr_player.getHand().add(stolen);
+
+            curr_player.call(call_pack.tileGroup());
             
-            
+            System.out.println(call_pack.callType());
+            printState();
+
+            curr_player.discard(curr_player.chooseToDiscard());
+
+            Tile recent_discard = curr_player.getRiver().getRecent();
+
+            analyseDiscarded(recent_discard);
+
         }
 
-
-
+        public void analyseDiscarded(Tile disard_tile){
+            CallPackage input_package = new CallPackage(disard_tile, players.get(curr_player_index).getWind());
+            List<CallPackage> packages = new ArrayList<>(0);
+            for(int i = 0; i < 4; i++){
+                packages.add( players.get(i).makePackage(input_package));
+            }
+            boolean is_call = false;
+            String[] call_list = new String[4];
+            for(int i = 0; i < 4; i++){
+                call_list[i] = "";
+                if(packages.get(i).isCalling()){
+                    is_call = true;
+                    call_list[i] = packages.get(i).callType();
+                }
+            }
+            if (!is_call){
+                return;
+            }
+            //search for rons: pozniej: dodaje do lsity wygranych
+            for(int i = 0; i < 4; i++){
+                if(call_list[i].equals("ron")){
+                    end(players.get(i), disard_tile);
+                    return;
+                }
+            }
+            for(int i = 0; i < 4; i++){
+                if(call_list[i].equals("pon")){
+                    discardTurn(curr_player_index,i , packages.get(i));
+                    return;
+                }
+            }
+            for(int i = 0; i < 4; i++){
+                if(call_list[i].equals("chi")){
+                    discardTurn(curr_player_index,i , packages.get(i));
+                    return;
+                }
+            }
+        }
     }
-
-
-
-
-
-    
-
 
     public void printState(){
         System.out.println("Game state:");

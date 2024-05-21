@@ -19,6 +19,10 @@ public class River extends TileGroup{
         recent_tile = tile;
         return tile;
     }
+    public void remove(){
+        group.remove(group.size()-1);
+    }
+    
     public String toString(){
         String output = "";
         for(int i = 0; i < group.size(); i++){

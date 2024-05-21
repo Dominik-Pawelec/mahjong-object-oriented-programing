@@ -10,6 +10,9 @@ public class CallPackage {
     public CallPackage(Tile t, String w){
         tile = t;
         wind = w;
+        is_calling = false;
+        call_type = "";
+        tile_group = new TileGroup();
     }
     public CallPackage(CallPackage copy){
         tile = copy.tile;
@@ -25,10 +28,11 @@ public class CallPackage {
     public String getWind(){
         return wind;
     }
-
+    public void preparePackage(){
+        is_calling = false;
+    }
     public void preparePackage(boolean is_call, String call_t, TileGroup whole_block){
         is_calling = is_call;
-        if(!is_calling){return;}
         call_type = call_t;
         tile_group = whole_block;
     }

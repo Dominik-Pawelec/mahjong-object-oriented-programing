@@ -34,9 +34,17 @@ public class Player{
         }
         //System.out.println("Player doesn,'t contain tile:" + t + " . Operation ignored");
     }
-    public CallPackage call(CallPackage input_package){//inaczej kształt w zaleznosci od tego od kogo kradnie etc. :c
+    public void call(TileGroup tile_group){//just call, no discard
+        getHand().openBlock(tile_group);
+    }
+    public CallPackage makePackage(CallPackage input_package){//inaczej kształt w zaleznosci od tego od kogo kradnie etc. :c
         CallPackage output_package = new CallPackage(input_package); 
         Tile temp_tile = output_package.getTile();
+
+        if(getWind().equals(input_package.getWind())){
+            output_package.preparePackage();
+            return output_package;
+        }
 
         //prepares list of all calls and makes player choose one of them (choosing is part of player's interface)
         List<String> possible_calls = new ArrayList<String>(0);
@@ -48,7 +56,7 @@ public class Player{
         if(canRon(temp_tile)){possible_calls.add("ron");}
 
         if(possible_calls.size()==0){
-            output_package.preparePackage(false, null, null);
+            output_package.preparePackage();
             return output_package;
         }
 
@@ -57,10 +65,10 @@ public class Player{
         TileGroup group;
         switch (chosen_call) {
             case "skip":
-                output_package.preparePackage(false, null, null);
+                output_package.preparePackage();
                 return output_package;
             case "ron":
-                output_package.preparePackage(true, chosen_call, null);
+                output_package.preparePackage(true, chosen_call, new TileGroup());
                 return output_package;
             case "chi":
                 if(getHand().chiOptions(temp_tile).size() == 1){group = getHand().chiOptions(temp_tile).get(0);}
@@ -121,8 +129,9 @@ public class Player{
 
     ///DIFFERENT AMONG SUBCLASSES
     public Tile chooseToDiscard(){//zamienić na: logika wyboru odrzutu
-        //logic of discarding (for player: input, for bot: random/algorithm) (this: random)
+        //logic of discarding (for player: input, for bot:algorith) (this: last drawn)
         getHand().sort();
+        /*return getHand().get(13);*/
         TileGroup all_tiles = new TileGroup("all");
         all_tiles.shuffle();
         Tile temp = new Tile("1m");
@@ -139,17 +148,14 @@ public class Player{
         return true;
     }
     
-    /*public boolean chooseToChi(Tile t){
-        return canChi(t);
-    }*/
-    public String chooseCall(List<String> possible_calls) {
-
+    
+    public String chooseCall(List<String> possible_calls) {// w possible_calls nie ma "skip"
         if(possible_calls.contains("ron")){return "ron";}
-
+        if(possible_calls.contains("pon")){return "pon";}
+        if(possible_calls.contains("chi")){return "chi";}
         return "skip";//"skip","ron","chi","pon"
     }
-    public TileGroup chooseGroup(List<TileGroup> groups){
-
+    public TileGroup chooseGroup(List<TileGroup> groups){ 
         return groups.get(0);
     }
 
