@@ -14,6 +14,11 @@ public class Human extends Player {
 
     @Override
     public Tile chooseToDiscard(){
+
+        if(in_riichi){
+            return recent_draw;
+        }
+
         System.out.print("Discard tile: ");
         
         String tile = input.next();
@@ -34,12 +39,20 @@ public class Human extends Player {
         if(inp.equals("n") || inp.equals("no")){return false;}
         return true;
     }
+    public boolean chooseToRiichi(){
+        System.out.print("RIICHI? (Y/n)");
+        
+        String inp = input.next();
+        if(inp.equals("n") || inp.equals("no")){return false;}
+        return true;
+    }
 
     public String chooseCall(List<String> possible_calls) {// w possible_calls nie ma "skip"
         System.out.println("skip? or:" + possible_calls);
         
         String inp = input.next();
-        if((inp.equals("chi") || inp.equals("pon") || inp.equals("skip") || inp.equals("ron"))&&(possible_calls.contains(inp))){return inp;}
+        if((inp.equals("chi") || inp.equals("pon") || inp.equals("ron"))&&(possible_calls.contains(inp))){return inp;}
+        if(inp.equals("skip")){return inp;}
 
         System.out.println("Wrong input. Choose another:");
         return chooseCall(possible_calls);
@@ -49,7 +62,7 @@ public class Human extends Player {
         System.out.println("which to call(nr from left): "+groups);
         
         int inp = input.nextInt();
-        if(groups.size() <= inp && groups.size() > 0){return groups.get(inp-1);}
+        if(groups.size() >= inp){return groups.get(inp-1);}
 
         System.out.println("Wrong input. Choose another:");
         return chooseGroup(groups);

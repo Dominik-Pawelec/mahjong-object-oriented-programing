@@ -6,8 +6,8 @@ public class Player{
     Hand hand;
     River river;
     String wind;
-    //money etc.
-    //autosort
+
+    Tile recent_draw;
     boolean in_riichi = false;
 
     CallPackage call_package;
@@ -23,10 +23,12 @@ public class Player{
 
     public Tile draw(){
         Wall wall = Wall.getInstance();
-
-        return hand.add(wall.drawTile());
+        recent_draw = hand.add(wall.drawTile());
+        return recent_draw;
     }
+
     public void discard(Tile t){
+
         if(hand.containsTile(t)){
             hand.remove(t);
             river.add(t);
@@ -93,7 +95,7 @@ public class Player{
     public boolean canPon(Tile t){
         return (getHand().ponOptions(t).size() != 0);
     }
-    public boolean canRiichi(Tile t){
+    public boolean canRiichi(){
         Hand riichi_hand = new Hand(getHand());
         return(riichi_hand.inTenpai() && !(riichi_hand.isOpen()));
     }
@@ -108,6 +110,12 @@ public class Player{
 
     public void setHand(Hand h){
         hand = h;
+    }
+    public boolean getRiichi(){
+        return in_riichi;
+    }
+    public void setRiichi(boolean b){
+        in_riichi = b;
     }
     public Hand getHand(){
         return hand;
@@ -131,6 +139,7 @@ public class Player{
     ///DIFFERENT AMONG SUBCLASSES
     public Tile chooseToDiscard(){//zamienić na: logika wyboru odrzutu
         //logic of discarding (for player: input, for bot:algorith) (this: last drawn)
+
         getHand().sort();
         /*return getHand().get(13);*/
         TileGroup all_tiles = new TileGroup("all");
@@ -148,6 +157,9 @@ public class Player{
     public boolean chooseToTsumo(){
         return true;
     }
+    public boolean chooseToRiichi(){
+        return true;
+    }
     
     
     public String chooseCall(List<String> possible_calls) {// w possible_calls nie ma "skip"
@@ -163,7 +175,7 @@ public class Player{
     /////////THE SAME:
     @Override
     public String toString(){
-        return (getHand().toString() + getRiver().toString());
+        return (getHand().toString() + getRiver().toString() + "in riichi: " + in_riichi);
     }
 
 }

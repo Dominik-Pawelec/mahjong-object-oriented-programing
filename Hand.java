@@ -59,7 +59,7 @@ public class Hand extends TileGroup{
     }
 
     public boolean isOpen(){
-        return (opened_blocks.size()==0);
+        return (opened_blocks.size()!=0);
     }
 
     public boolean isWinning(){
@@ -133,9 +133,18 @@ public class Hand extends TileGroup{
         return(this.winningTiles().size() != 0);
     }
 
+    public void sort2(){
+        TileGroup temp_group = new TileGroup(this);
+        Tile t = temp_group.get(temp_group.size()-1);
+        temp_group.remove();
+        temp_group.sort();
+        temp_group.add(t);
+        this.group = temp_group.group;
+    }
+
     @Override
     public String toString(){
-        String output = "closed:" + super.toString() + "| opened:" + this.opened_blocks.toString();
+        String output = "closed:" + super.toString() + "| opened:" + isOpen()+ " :" + this.opened_blocks.toString();
         return output;
     }
 }

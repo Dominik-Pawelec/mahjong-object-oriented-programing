@@ -145,8 +145,9 @@ public class Game {
             recent_drawn = curr_player.draw();
 
 
-            curr_player.getHand().sort();
+            curr_player.getHand().sort2();
             printState();
+
 
             if(curr_player.getHand().isWinning()){
                 if(curr_player.chooseToTsumo()){
@@ -156,11 +157,34 @@ public class Game {
                     return;
                 }
             }
+            if(curr_player.getRiichi()){
+                curr_player.discard(recent_drawn);
+            }
+            else{
+                boolean flag = false;
+                if(curr_player.canRiichi()){
+                    if(curr_player.chooseToRiichi()){
+                        flag = true;
+                        System.out.print("uwu");
+                    }
+                }
+                
+                curr_player.discard(curr_player.chooseToDiscard());
+                if(curr_player.getHand().inTenpai() && flag){
+                    System.out.println(curr_player.getWind() + ": RIICHI!");
+                    curr_player.setRiichi(true);
+                    try{
+                        Thread.sleep(1000);
+                    }catch(Exception e){}
+                }
+                else{
+                    curr_player.setRiichi(false);
+                }
+            }
 
-            curr_player.discard(curr_player.chooseToDiscard());
+            curr_player.getHand().sort();
             Tile recent_discard = curr_player.getRiver().getRecent();
             printState();
-
 
             analyseDiscarded(recent_discard);
 

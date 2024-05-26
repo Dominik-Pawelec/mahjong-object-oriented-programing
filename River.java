@@ -21,6 +21,7 @@ public class River extends TileGroup{
     }
     public void remove(){
         group.remove(group.size()-1);
+        stolen_tiles.add(recent_tile);
     }
     
     public String toString(){
