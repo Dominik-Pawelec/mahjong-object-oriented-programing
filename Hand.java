@@ -20,6 +20,9 @@ public class Hand extends TileGroup{
             opened_blocks.add(new TileGroup(copy.opened_blocks.get(i)));
         }
     }
+    public List<TileGroup> getOpened(){
+        return opened_blocks;
+    }
 
     public Boolean containsTile(Tile t){
         return (this.nrOfElem(t) != 0);
