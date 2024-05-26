@@ -148,7 +148,6 @@ public class Game {
             curr_player.getHand().sort2();
             printState();
 
-
             if(curr_player.getHand().isWinning()){
                 if(curr_player.chooseToTsumo()){
                     winner = curr_player;
@@ -212,7 +211,7 @@ public class Game {
             curr_player.discard(curr_player.chooseToDiscard());
 
             Tile recent_discard = curr_player.getRiver().getRecent();
-
+            printState();
             analyseDiscarded(recent_discard);
 
         }

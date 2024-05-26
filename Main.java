@@ -18,6 +18,12 @@ public class Main {
         game.startHanchan();
         game.prepareRound();
         game.start();*/
+
+        /*Player x = new Player(new Hand(new Tile("1m"),new Tile("1m"),new Tile("1m"),new Tile("2m"),
+        new Tile("3m"),new Tile("4m"),new Tile("5m"),new Tile("6m"),new Tile("7m"),new Tile("8m"),
+        new Tile("9m"),new Tile("9m"),new Tile("9m"), new Tile("B")),new River());
+
+        System.out.println(x.canRiichi());*/
         
     }
 }

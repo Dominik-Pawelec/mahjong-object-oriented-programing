@@ -40,7 +40,7 @@ public class Human extends Player {
         return true;
     }
     public boolean chooseToRiichi(){
-        System.out.print("RIICHI? (Y/n)");
+        System.out.println("RIICHI? (Y/n)");
         
         String inp = input.next();
         if(inp.equals("n") || inp.equals("no")){return false;}

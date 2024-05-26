@@ -43,7 +43,7 @@ public class Player{
         CallPackage output_package = new CallPackage(input_package); 
         Tile temp_tile = output_package.getTile();
 
-        if(getWind().equals(input_package.getWind())){
+        if(getWind().equals(input_package.getWind()) || getRiichi()){
             output_package.preparePackage();
             return output_package;
         }
@@ -97,7 +97,17 @@ public class Player{
     }
     public boolean canRiichi(){
         Hand riichi_hand = new Hand(getHand());
-        return(riichi_hand.inTenpai() && !(riichi_hand.isOpen()));
+        Hand temp_hand = new Hand(riichi_hand);
+        if(riichi_hand.isOpen()){return false;}
+        
+        for(int i = 0; i < riichi_hand.size(); i++){
+            temp_hand = new Hand(riichi_hand);
+            temp_hand.remove(temp_hand.get(i));
+
+            if(temp_hand.inTenpai()){return true;}
+        }
+
+        return false;
     }
     public boolean canRon(Tile t){
         Hand ron_hand = new Hand(getHand());
