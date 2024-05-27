@@ -10,18 +10,14 @@ import javafx.util.Pair;
 public class Calculator {
     
     public Calculator(){
-
+        //potencjalnie przepisać na: getInstance()
     }
 
     public int shanten(Hand h){
-
-        if(h.size() != 14){System.out.println("WRONG SIZE OF HAND");return -1;}
-
-
         int opened = 0;
         Hand hand = new Hand(h);
 
-        opened += 2 * hand.getOpened().size();
+        opened += hand.getOpened().size();
 
         int max_shanten = 6;
         List<Integer[]> all_shapes = possibleShapes(hand, 0, 0);
@@ -99,10 +95,29 @@ public class Calculator {
         return out_merged;
     }
 
-   
+    //TODO
+    public Tile LeastFrequent(Hand h, Game g){
+        int min = 4;
+        Tile t = h.get(0);
+        for(int i = 0; i < h.size(); i++){
+            int nr_in_pool = 4;
+            Tile temp = h.get(i);
+            nr_in_pool -= h.nrOfElem(temp);
+            
+            for(int j = 0; j<4; j++){
+                nr_in_pool -= g.players.get(j).getRiver().nrOfElem(temp);
+                List<TileGroup> idk = g.players.get(j).getHand().getOpened();
+                for(int k = 0; k < idk.size(); k++){
+                    nr_in_pool -= idk.get(k).nrOfElem(temp);
+                }
+            }
+            if(nr_in_pool < min){
+                min = nr_in_pool;
+                t = temp;
+            }
+        }
 
-    
-    
-    
+        return t;
+    }
 }
 

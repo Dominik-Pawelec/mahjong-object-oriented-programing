@@ -47,7 +47,7 @@ public class Human extends Player {
         return true;
     }
 
-    public String chooseCall(List<String> possible_calls) {// w possible_calls nie ma "skip"
+    public String chooseCall(List<String> possible_calls, Tile discarded_tile) {// w possible_calls nie ma "skip"
         System.out.println("skip? or:" + possible_calls);
         
         String inp = input.next();
@@ -55,17 +55,17 @@ public class Human extends Player {
         if(inp.equals("skip")){return inp;}
 
         System.out.println("Wrong input. Choose another:");
-        return chooseCall(possible_calls);
+        return chooseCall(possible_calls, discarded_tile);
     }
 
-    public TileGroup chooseGroup(List<TileGroup> groups){ 
+    public TileGroup chooseGroup(List<TileGroup> groups, Tile discarded_tile){ 
         System.out.println("which to call(nr from left): "+groups);
         
         int inp = input.nextInt();
         if(groups.size() >= inp){return groups.get(inp-1);}
 
         System.out.println("Wrong input. Choose another:");
-        return chooseGroup(groups);
+        return chooseGroup(groups,discarded_tile);
     }
 
 

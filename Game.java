@@ -19,7 +19,7 @@ public class Game {
     public void startHanchan(){
         int temp = players.size();
         for(int i = 0; i < 4-temp; i++){
-            players.add(new Player());
+            players.add(new AI(this));
         }
         
         round_wind = "east";
@@ -93,7 +93,7 @@ public class Game {
     public void ryukuoku(){
         System.out.println("ryukyoku");
         try{
-            Thread.sleep(3000);
+            Thread.sleep(1000);
 
         }catch(Exception e){}
         for(int i = 0; i < 4; i++){
@@ -173,7 +173,7 @@ public class Game {
                     System.out.println(curr_player.getWind() + ": RIICHI!");
                     curr_player.setRiichi(true);
                     try{
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
                     }catch(Exception e){}
                 }
                 else{
@@ -190,7 +190,7 @@ public class Game {
             curr_player_index = (curr_player_index+1)%4;
 
             try{
-                Thread.sleep(500);
+                Thread.sleep(0);//TODO
 
             }catch(Exception e){}
         }

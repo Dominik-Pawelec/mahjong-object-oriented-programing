@@ -62,7 +62,7 @@ public class Player{
             return output_package;
         }
 
-        String chosen_call = chooseCall(possible_calls);
+        String chosen_call = chooseCall(possible_calls, input_package.getTile());
         
         TileGroup group;
         switch (chosen_call) {
@@ -74,12 +74,12 @@ public class Player{
                 return output_package;
             case "chi":
                 if(getHand().chiOptions(temp_tile).size() == 1){group = getHand().chiOptions(temp_tile).get(0);}
-                else {group = new TileGroup(chooseGroup(getHand().chiOptions(temp_tile)));}
+                else {group = new TileGroup(chooseGroup(getHand().chiOptions(temp_tile),input_package.getTile()));}
                 output_package.preparePackage(true, chosen_call, group);
                 return output_package;
             case "pon":
                 if(getHand().ponOptions(temp_tile).size() == 1){group = new TileGroup(getHand().ponOptions(temp_tile).get(0));}
-                else {group = new TileGroup(chooseGroup(getHand().ponOptions(temp_tile)));}
+                else {group = new TileGroup(chooseGroup(getHand().ponOptions(temp_tile),input_package.getTile()));}
                 output_package.preparePackage(true, chosen_call, group);
                 return output_package;
             default:
@@ -172,13 +172,13 @@ public class Player{
     }
     
     
-    public String chooseCall(List<String> possible_calls) {// w possible_calls nie ma "skip"
+    public String chooseCall(List<String> possible_calls, Tile discarded_tile) {// w possible_calls nie ma "skip"
         if(possible_calls.contains("ron")){return "ron";}
         if(possible_calls.contains("pon")){return "pon";}
         if(possible_calls.contains("chi")){return "chi";}
         return "skip";//"skip","ron","chi","pon"
     }
-    public TileGroup chooseGroup(List<TileGroup> groups){ 
+    public TileGroup chooseGroup(List<TileGroup> groups, Tile discarded_tile){ 
         return groups.get(0);
     }
 
