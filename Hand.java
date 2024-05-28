@@ -66,7 +66,7 @@ public class Hand extends TileGroup{
     }
 
     public boolean isWinning(){
-        TileGroup hand_copy = new TileGroup(this);//kopiuje tylko część zamkniętą ręki (czyli zamierzony efekt)
+        Hand hand_copy = new Hand(this);//kopiuje tylko część zamkniętą ręki (czyli zamierzony efekt)
         
         TileGroup pair_tiles = new TileGroup();
 
@@ -81,9 +81,8 @@ public class Hand extends TileGroup{
         if(pair_tiles.size() == 7){//7 par in my heart
             return true;
         }
-
         hand_copy.sort();
-        
+
         TileGroup tgroup;
 
         //uwzględniamy że można było otworzyć np. 2 grupy, wtedy tylko 2 do sprawdzenia na ręce:
@@ -118,6 +117,7 @@ public class Hand extends TileGroup{
 
         return false;
     }
+    
 
     public TileGroup winningTiles(){
         TileGroup output = new TileGroup();
@@ -125,6 +125,7 @@ public class Hand extends TileGroup{
         Hand temp_hand;
         for(int i = 0; i < all_tiles.size(); i++){
             temp_hand = new Hand(this);
+            temp_hand.sort();
             temp_hand.add(all_tiles.get(i));
             if(temp_hand.isWinning()){
                 output.add(all_tiles.get(i));

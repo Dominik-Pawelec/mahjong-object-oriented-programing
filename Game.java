@@ -91,9 +91,14 @@ public class Game {
         start();
     }
     public void ryukuoku(){
-        System.out.println("ryukyoku");
+        System.out.println("ryukyoku, in tenpai:");
+        for(int i = 0; i < 4; i++){
+            if(players.get(i).getHand().inTenpai()){
+                System.out.println(players.get(i).getWind());
+            }
+        }
         try{
-            Thread.sleep(1000);
+            Thread.sleep(2000);
 
         }catch(Exception e){}
         for(int i = 0; i < 4; i++){
@@ -164,7 +169,6 @@ public class Game {
                 if(curr_player.canRiichi()){
                     if(curr_player.chooseToRiichi()){
                         flag = true;
-                        System.out.print("uwu");
                     }
                 }
                 
