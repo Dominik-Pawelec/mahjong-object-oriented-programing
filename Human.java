@@ -48,7 +48,7 @@ public class Human extends Player {
     }
 
     public String chooseCall(List<String> possible_calls, Tile discarded_tile) {// w possible_calls nie ma "skip"
-        System.out.println("skip? or:" + possible_calls);
+        System.out.println("call: " + discarded_tile + " | skip or:" + possible_calls);
         
         String inp = input.next();
         if((inp.equals("chi") || inp.equals("pon") || inp.equals("ron"))&&(possible_calls.contains(inp))){return inp;}
