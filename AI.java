@@ -61,6 +61,9 @@ public class AI extends Player{
         Calculator calc = new Calculator();
         int shanten = calc.shanten(hand_copy);
         System.out.println(shanten);
+
+        TileGroup potential_tiles = new TileGroup();
+
         for(int i = 1; i < hand.size(); i++){
             hand_copy = new Hand(hand);
             hand_copy.remove(hand_copy.get(i));
@@ -71,14 +74,26 @@ public class AI extends Player{
                 try{
                     Thread.sleep(wait);
                 }catch(Exception e){}
-                return hand.get(i);
+
+                potential_tiles.add(hand.get(i));
             }
         }
-        try{
-            System.out.println(getWind().toString() + " Every equal in terms of shanten");
-            Thread.sleep(wait);
-        }catch(Exception e){}
-        return chooseMostWaits();
+
+        if(potential_tiles.size()==0){
+            try{
+                System.out.println(getWind().toString() + " Every equal in terms of shanten");
+                Thread.sleep(wait);
+            }catch(Exception e){}
+            return chooseMostWaits();
+        }
+        String[] discard_order = new String[]{"E","S","W","N","R","G","B","1m","9m","1p","9p","1s","9s","2m","2p","2s","8m","8p","8s","3m","3p","3s","78m","7p","7s","4m","4p","4s","6m","6p","6s","5m","5p","5s" };
+    
+        for(int i = 0; i < discard_order.length;i++){
+            if(potential_tiles.nrOfElem(new Tile(discard_order[i])) > 0){
+                return new Tile(discard_order[i]);
+            }
+        }
+        return getHand().get(0);
     }
     public Tile chooseMostWaits(){
         List<Integer> lista = new ArrayList<>(0);
@@ -141,7 +156,7 @@ public class AI extends Player{
             hand.add(discarded_tile);
             hand.openBlock(new TileGroup(discarded_tile,discarded_tile,discarded_tile));
             Calculator calc = new Calculator();
-            if(calc.shanten(getHand()) <= calc.shanten(hand)){
+            if(calc.shanten(getHand()) > calc.shanten(hand)){
                 return "pon";
             }
         }
@@ -149,7 +164,7 @@ public class AI extends Player{
             Hand hand = new Hand(getHand());
             hand.add(discarded_tile);
             Calculator calc = new Calculator();
-            if(calc.shanten(getHand()) <= calc.shanten(hand)){
+            if(calc.shanten(getHand()) > calc.shanten(hand)){
                 return "chi";
             }
         }
@@ -163,7 +178,7 @@ public class AI extends Player{
             hand.add(discarded_tile);
             hand.openBlock(groups.get(i));
             Calculator calc = new Calculator();
-            if(calc.shanten(getHand()) < calc.shanten(hand)){
+            if(calc.shanten(getHand()) < calc.shanten(hand)){//TODO
                 return groups.get(i);
             }
         }

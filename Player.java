@@ -15,10 +15,12 @@ public class Player{
     public Player(Hand h, River r){
         hand = h;
         river = r;
+        in_riichi = false;
     }
     public Player(){
         hand = new Hand();
         river = new River();
+        in_riichi = false;
     }
 
     public Tile draw(){
@@ -142,6 +144,7 @@ public class Player{
     public void reset(){
         hand = new Hand();
         river = new River();
+        in_riichi = false;
     }
 
 
