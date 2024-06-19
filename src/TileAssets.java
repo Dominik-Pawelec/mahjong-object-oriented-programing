@@ -181,4 +181,7 @@ public class TileAssets {
                     [direction % 4][tile.getNr() - 1];
 
     }
+    ImageIcon getIcon(int direction){
+        return dback[direction % 4];
+    }
 }

@@ -192,4 +192,8 @@ public class Player{
         return (getHand().toString() + getRiver().toString() + "in riichi: " + in_riichi);
     }
 
+
+    public void pinToDisplay(DisplayGame dg){
+        // -_-
+    }
 }

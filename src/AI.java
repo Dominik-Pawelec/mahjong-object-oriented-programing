@@ -28,6 +28,10 @@ public class AI extends Player{
             return recent_draw;
         }
 
+        try{
+            Thread.sleep(600);
+        }catch(Exception e){}
+
         String[] bad_tiles = new String[]{"S","W","N","E","R","G","B"};
         for(int i = 0; i < bad_tiles.length; i++){
             if(getHand().nrOfElem(new Tile(bad_tiles[i])) == 1){
@@ -145,7 +149,7 @@ public class AI extends Player{
     public String chooseCall(List<String> possible_calls, Tile discarded_tile) {// w possible_calls nie ma "skip"
         if(possible_calls.contains("ron")){return "ron";}
 
-        //TODO: by szaclowal ktory z tych lepszy
+        
         if(possible_calls.contains("pon")){ 
             if(discarded_tile.getFamily().equals("dragon") || (Character.toLowerCase(discarded_tile.toString().charAt(0)) == Character.toLowerCase(getWind().charAt(0))) || discarded_tile.equals(new Tile("E"))){
                 return "pon";

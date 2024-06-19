@@ -1,19 +1,28 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class Game {
     List<Player> players;
     String round_wind;//more complex structure rememenbering repeats nr of round etc.
     int start_index;
+    JFrame frame;
 
+    DisplayGame display;
+    int curr_player_index;
+    
     public Game(){
         players = new ArrayList<Player>();
     }
 
-    public Game(Player p1){
+    public Game(Player p1, JFrame frame){
         players = new ArrayList<Player>();
         players.add(p1);
+        this.frame = frame;
     }
 
     public void startHanchan(){
@@ -25,6 +34,20 @@ public class Game {
         round_wind = "east";
         start_index = 0;
     }
+    public void startHanchan(DisplayGame display){
+        int temp = players.size();
+        for(int i = 0; i < 4-temp; i++){
+            players.add(new AI(this));
+        }
+        
+        round_wind = "east";
+        start_index = 0;
+
+        this.display = display;
+        
+        players.get(0).pinToDisplay(display);
+    }
+
 
     public void prepareRound(){
 
@@ -47,7 +70,7 @@ public class Game {
         players.get((2 + start_index) % 4).setWind("west");
         players.get((3 + start_index) % 4).setWind("north");
 
-        
+        display.reset();
     }
     public void prepareRound(Hand h){
         Wall.getInstance().build();
@@ -58,7 +81,7 @@ public class Game {
                 players.get(p).draw();
             }
         }
-        //Collections.shuffle(players);//temp!!!!!!!!!!!!!!!!!!
+
 
         players.get((0 + start_index) % 4).setWind("east");
         players.get((1 + start_index) % 4).setWind("south");
@@ -83,7 +106,7 @@ public class Game {
         }
 
         try{
-            Thread.sleep(3000);
+            Thread.sleep(2000);
 
         }catch(Exception e){}
 
@@ -121,7 +144,7 @@ public class Game {
     public class GameLogic{
 
         boolean is_players_turn = false;
-        int curr_player_index;
+        
         int nr = 0;
         Tile recent_drawn;
 
@@ -175,8 +198,9 @@ public class Game {
                 if(curr_player.getHand().inTenpai() && flag){
                     System.out.println(curr_player.getWind() + ": RIICHI!");
                     curr_player.setRiichi(true);
+                    display.display_rivers.get(curr_player_index).setRichiiTile();
                     try{
-                        Thread.sleep(3000);
+                        Thread.sleep(500);
                     }catch(Exception e){}
                 }
                 else{
@@ -186,19 +210,18 @@ public class Game {
 
             curr_player.getHand().sort();
             Tile recent_discard = curr_player.getRiver().getRecent();
+            display.display_rivers.get(curr_player_index).addTile(recent_discard);
             printState();
 
             analyseDiscarded(recent_discard);
 
             curr_player_index = (curr_player_index+1)%4;
-
-            try{
-                Thread.sleep(0);//TODO
-
-            }catch(Exception e){}
         }
 
         public void discardTurn(int prev_id,int steal_id, CallPackage call_pack){
+
+            display.display_rivers.get(prev_id).removeLastTile();
+
             curr_player_index = steal_id;
             Player curr_player = players.get(steal_id);
             Tile stolen = players.get(prev_id).getRiver().getRecent();
@@ -214,6 +237,7 @@ public class Game {
             curr_player.discard(curr_player.chooseToDiscard());
 
             Tile recent_discard = curr_player.getRiver().getRecent();
+            display.display_rivers.get(curr_player_index).addTile(recent_discard);
             printState();
             analyseDiscarded(recent_discard);
 
@@ -263,15 +287,10 @@ public class Game {
     }
 
     public void printState(){
-        System.out.print("\033[H\033[2J");  
-            System.out.flush(); 
-        System.out.println("Game state:");
-        /*basic print:*/
-        for(int i = 0; i < 4; i++){
-            System.out.println(players.get(i).getWind() + ": "+ players.get(i));
-        }
-        
 
-        System.out.println();
+        System.out.println("aaaa");
+
+        display.draw(curr_player_index);
+
     }
 }

@@ -25,18 +25,12 @@ public class Menu{
         this.frame.getContentPane().add(start);
 
         start.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e){
                 //start.setVisible(false);
                 game_start = true;
-                System.out.println("DZIAŁA");
-
-                Tile t = new Tile("R");
-
-                ImageIcon test = new TileAssets().getIcon(t, 0);
-
-                start.setIcon(test);
-
-
+                System.out.println("START GAME");
+                start.setVisible(false);
             }
         });
         start.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -13,6 +13,7 @@ public class Main {
     static JPanel panel = new JPanel();
     static ImageIcon background = new ImageIcon("Background.png");
     static JLabel label = new JLabel(background);
+
     public static void main(String[] args)
     {
         frame.setResizable(false);
@@ -27,12 +28,15 @@ public class Main {
 
         Menu menu = new Menu(frame);
 
-
-
-/* 
-        Game game = new Game(new Human());
-        game.startHanchan();
+        while(!menu.game_start){
+            try{
+                Thread.sleep(100);
+            }catch(Exception e){}
+        }
+        Game game = new Game(new Human(), frame);
+        DisplayGame display = new DisplayGame(frame, game);
+        game.startHanchan(display);
         game.prepareRound();
-        game.start();*/
+        game.start();
     }
 }
