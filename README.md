@@ -12,4 +12,4 @@
     After the game finishes (consisting of around 4 rounds), nr of wins will appear for each player.
     
 
-## [Documentation] (Documentation.md)
+## [Documentation] (docs/Documentation.md)
