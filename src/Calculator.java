@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javafx.util.Pair;
 
@@ -114,7 +111,6 @@ public class Calculator {
         return out_merged;
     }
 
-    //TODO
     public List<Pair<Tile, Integer>> remainingTiles(Hand h,Game g){
         List<Pair<Tile, Integer>> output = new ArrayList<>(0);
         TileGroup all_tiles = new TileGroup("all");
@@ -131,7 +127,7 @@ public class Calculator {
                     counter += temp_player.getHand().opened_blocks.get(iii).nrOfElem(all_tiles.get(i));
                 }
             }
-            output.add(new Pair(all_tiles.get(i), (4 - counter) ));
+            output.add(new Pair<Tile,Integer>(all_tiles.get(i), (4 - counter) ));
         }
         return output;
     }

@@ -4,18 +4,6 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import javafx.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.*;
-import javax.swing.*;
-
-import java.io.File;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.*;
 
 public class DisplayHand {
     public ArrayList<JButton> jbutton_hand = new ArrayList<JButton>();
@@ -27,6 +15,8 @@ public class DisplayHand {
 
     boolean was_chosen_to_discard, light_mode;
     int tile_to_discard;
+
+    int prev_hand_size = 13;
 
 
     public DisplayHand(int x, int y, int direction, int tile_size_x, int tile_size_y, JFrame frame, Hand hand, boolean is_hidden, boolean is_players, boolean light_mode){
@@ -51,7 +41,7 @@ public class DisplayHand {
         
         jbutton_hand = new ArrayList<JButton>();
         for(int i = 0; i < raw_hand.group.size(); i++){
-            if(is_hidden){jbutton_hand.add( new JButton(tile_assets.getIcon(direction)) );}
+            if(is_hidden){jbutton_hand.add( new JButton(tile_assets.getIcon(direction,light_mode)) );}
             else{jbutton_hand.add( new JButton(tile_assets.getIcon(raw_hand.get(i),direction, light_mode)));}
 
             JButton temp_button = jbutton_hand.get(i);
@@ -60,14 +50,18 @@ public class DisplayHand {
             temp_button.setContentAreaFilled(false);
             this.frame.getContentPane().add(temp_button);
             
-            if(direction == 0){temp_button.setBounds(x + i*size_x, y,size_x, size_y);}
-            if(direction == 1){temp_button.setBounds(x , y - i*size_y,size_x, size_y);}
-            if(direction == 2){temp_button.setBounds(x - i*size_x, y,size_x, size_y);}
-            if(direction == 3){temp_button.setBounds(x , y + i*size_y,size_x, size_y);}
+            int draw = 0;
+            if(raw_hand.group.size()%3 != 1){
+                if(Math.abs(prev_hand_size - raw_hand.group.size()) < 2 && i == raw_hand.group.size()-1 ) draw = 10;
+            }
+
+            if(direction == 0){temp_button.setBounds(x + i*size_x+draw, y,size_x, size_y);}
+            if(direction == 1){temp_button.setBounds(x , y - i*size_y-draw,size_x, size_y);}
+            if(direction == 2){temp_button.setBounds(x - i*size_x-draw, y,size_x, size_y);}
+            if(direction == 3){temp_button.setBounds(x , y + i*size_y+draw,size_x, size_y);}
             
             temp_button.setVisible(true);
 
-            int x = i;
             if(is_players){
                 temp_button.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -82,6 +76,7 @@ public class DisplayHand {
             }
             
         }
+        prev_hand_size = raw_hand.group.size();
         frame.repaint();
     }
 
@@ -113,7 +108,6 @@ public class DisplayHand {
                 });
             }
         }
-        System.out.println("222");
         return tile_to_discard;
     }
 

@@ -358,7 +358,8 @@ public class TileAssets {
                     [direction % 4][tile.getNr() - 1];
 
     }
-    ImageIcon getIcon(int direction){
+    ImageIcon getIcon(int direction, boolean light_mode){
+        if(light_mode) return lback[direction % 4];
         return dback[direction % 4];
     }
 }

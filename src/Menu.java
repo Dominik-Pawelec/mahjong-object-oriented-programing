@@ -200,7 +200,7 @@ public class Menu{
                 light_mode = false;
                 light.setVisible(true);
                 dark.setVisible(false);
-                frame.getContentPane().setBackground(new Color(6, 10, 35));
+                frame.getContentPane().setBackground(new Color(27, 20, 38));
             }
         });
         dark.addMouseListener(new java.awt.event.MouseAdapter() {

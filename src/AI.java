@@ -45,7 +45,7 @@ public class AI extends Player{
             && getHand().nrOfElem(new Tile(new Tile(terminals[i]).getNr()-1,new Tile(terminals[i]).getFamily())) == 0
             && getHand().nrOfElem(new Tile(new Tile(terminals[i]).getNr()+2,new Tile(terminals[i]).getFamily())) == 0 
             && getHand().nrOfElem(new Tile(new Tile(terminals[i]).getNr()-2,new Tile(terminals[i]).getFamily())) == 0 ){
-                System.out.println(getWind().toString() +" chose disconnected: " + terminals[i]);
+
                 try{
                     Thread.sleep(0);
                 }catch(Exception e){}
@@ -56,36 +56,23 @@ public class AI extends Player{
         return chooseShantenPositive();
     }
     public Tile chooseShantenPositive(){
-        int wait = 0;
         Hand hand = new Hand(getHand());
 
         Hand hand_copy = new Hand(hand);
         Calculator calc = new Calculator();
         int shanten = calc.shanten(hand_copy);
-        System.out.println(shanten);
 
         TileGroup potential_tiles = new TileGroup();
 
         for(int i = 1; i < hand.size(); i++){
             hand_copy = new Hand(hand);
             hand_copy.remove(hand_copy.get(i));
-            System.out.println(calc.shanten(hand_copy));
             if(calc.shanten(hand_copy) > shanten){
-                System.out.println(hand.get(i));
-                System.out.println(getWind());
-                try{
-                    Thread.sleep(wait);
-                }catch(Exception e){}
-
                 potential_tiles.add(hand.get(i));
             }
         }
 
         if(potential_tiles.size()==0){
-            try{
-                System.out.println(getWind().toString() + " Every equal in terms of shanten");
-                Thread.sleep(wait);
-            }catch(Exception e){}
             return chooseMostWaits();
         }
         String[] discard_order = new String[]{"E","S","W","N","R","G","B","1m","9m","1p","9p","1s","9s","2m","2p","2s","8m","8p","8s","3m","3p","3s","7m","7p","7s","4m","4p","4s","6m","6p","6s","5m","5p","5s" };
@@ -129,14 +116,11 @@ public class AI extends Player{
 
         int min = 9999999;
         for(int i = 0; i < lista.size(); i++){
-            System.out.println(getHand().get(i) + " -> " + lista.get(i));
             if (min > lista.get(i)){
                 output = getHand().get(i);
                 min = lista.get(i);
             }
         }
-        System.out.println(getWind().toString() + " chose:3 : " + output);
-        
         return output;
     }
     public boolean chooseToTsumo(){
@@ -180,7 +164,7 @@ public class AI extends Player{
             hand.add(discarded_tile);
             hand.openBlock(groups.get(i));
             Calculator calc = new Calculator();
-            if(calc.shanten(getHand()) < calc.shanten(hand)){//TODO
+            if(calc.shanten(getHand()) < calc.shanten(hand)){
                 return groups.get(i);
             }
         }

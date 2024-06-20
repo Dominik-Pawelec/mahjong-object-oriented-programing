@@ -40,6 +40,9 @@ public class DisplayGame {
         for(JButton riichi : riichis){
             frame.getContentPane().remove(riichi);
         }
+        for(DisplayHand hand : display_hands){
+            hand.destroy();
+        }
     }
     
  

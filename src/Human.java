@@ -21,14 +21,11 @@ public class Human extends Player {
         if(in_riichi){
             return recent_draw;
         }
-        System.out.print("Discard tile: ");
 
         if(display_game != null){
             int x = display_game.display_hands.get(0).getTileToDiscard();
             return getHand().get(x);
         }
-
-        System.out.print("Discard tile: ");
         
         String tile = input.next();
 
@@ -43,12 +40,9 @@ public class Human extends Player {
         if(getHand().containsTile(output)){
             return output;
         }
-
-        System.out.println("selected tile is not part of your hand. choose another.");
         return chooseToDiscard();
     }
     public boolean chooseToTsumo(){
-        System.out.print("TSUMO? (Y/n)");
         
         if(display_game != null){
             boolean[] temp = {true,false,false,false,true,false};
@@ -61,7 +55,6 @@ public class Human extends Player {
         return true;
     }
     public boolean chooseToRiichi(){
-        System.out.println("RIICHI? (Y/n)");
         
         if(display_game != null){
             boolean[] temp = {false,false,false,false,false,true};
@@ -75,13 +68,8 @@ public class Human extends Player {
     }
 
     public String chooseCall(List<String> possible_calls, Tile discarded_tile) {// w possible_calls nie ma "skip"
-        System.out.println("call: " + discarded_tile + " | skip or:" + possible_calls);
         
         if(display_game != null){
-            System.out.println(possible_calls.contains("ron"));
-            System.out.println(possible_calls.contains("pon"));
-            System.out.println(possible_calls.contains("chi"));
-
             boolean[] temp = {true,possible_calls.contains("ron"),possible_calls.contains("pon"),possible_calls.contains("chi"),false,false};
             return display_game.calls.getCall(temp);
         }
@@ -90,20 +78,12 @@ public class Human extends Player {
         if((inp.equals("chi") || inp.equals("pon") || inp.equals("ron"))&&(possible_calls.contains(inp))){return inp;}
         if(inp.equals("skip")){return inp;}
 
-        System.out.println("Wrong input. Choose another:");
         return chooseCall(possible_calls, discarded_tile);
     }
 
     public TileGroup chooseGroup(List<TileGroup> groups, Tile discarded_tile){ 
         return(groups.get(0));
 
-        /*System.out.println("which to call(nr from left): "+groups);
-        
-        int inp = input.nextInt();
-        if(groups.size() >= inp){return groups.get(inp-1);}
-
-        System.out.println("Wrong input. Choose another:");
-        return chooseGroup(groups,discarded_tile);*/
     }
 
 

@@ -1,6 +1,0 @@
-TODO:
-1. better display
-2. scoring system
-3. 	ending scene: summary
-4. 	more than 1 player win on ron
-5. maybe: kan

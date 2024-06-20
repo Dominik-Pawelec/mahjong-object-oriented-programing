@@ -1,9 +1,6 @@
-import java.util.List;
-
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,5 +37,6 @@ public class Main {
         game.startHanchan(display);
         game.prepareRound();
         game.start();
+        new Results(frame, game,menu.getLight());
     }
 }

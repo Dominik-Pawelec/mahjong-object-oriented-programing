@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.sound.sampled.AudioInputStream;
@@ -9,10 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class Game {
     List<Player> players;
@@ -109,7 +105,6 @@ public class Game {
 
 
     public void end(int winner_index, Tile winning_tile){
-        System.out.println(players.get(winner_index).getWind() + " - " + players.get(winner_index).getHand() + " on tile: " + winning_tile);
         for(int i = 0; i < 4; i++){
             display.display_hands.get(i).hideHand();
         }
@@ -129,11 +124,9 @@ public class Game {
         start();
     }
     public void ryukuoku(){
-        System.out.println("ryukyoku, in tenpai:");
         for(int i = 0; i < 4; i++){
             if(players.get(i).getHand().inTenpai()){
                 display.display_hands.get(i).showHand();
-                System.out.println(players.get(i).getWind());
             }
             else{
                 display.display_hands.get(i).hideHand();
@@ -277,7 +270,6 @@ public class Game {
                     discard.start();}
 
                 if(curr_player.getHand().inTenpai() && flag){
-                    System.out.println(curr_player.getWind() + ": RIICHI!");
                     curr_player.setRiichi(true);
                     display.display_rivers.get(curr_player_index).setRichiiTile();
                     display.drawRiichi(curr_player_index);
@@ -316,7 +308,6 @@ public class Game {
 
             curr_player.call(call_pack.tileGroup());
             
-            System.out.println(call_pack.callType());
 
             display.display_opened.get(curr_player_index).displayNewBlock(call_pack.tileGroup());
 
@@ -395,8 +386,6 @@ public class Game {
     }
 
     public void printState(){
-
-        System.out.println("aaaa");
 
         display.draw(curr_player_index);
 
