@@ -18,8 +18,6 @@ public class Main {
 
     public static void main(String[] args)
     {
-        
-        
         frame.setResizable(false);
         panel.setPreferredSize(new Dimension(900, 900));
         panel.setBackground(new Color(246, 210, 235));
@@ -42,7 +40,5 @@ public class Main {
         game.startHanchan(display);
         game.prepareRound();
         game.start();
-
-        
     }
 }
