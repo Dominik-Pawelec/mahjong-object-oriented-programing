@@ -25,11 +25,11 @@ public class DisplayHand {
     JFrame frame;
     Hand raw_hand;
 
-    boolean was_chosen_to_discard;
+    boolean was_chosen_to_discard, light_mode;
     int tile_to_discard;
 
 
-    public DisplayHand(int x, int y, int direction, int tile_size_x, int tile_size_y, JFrame frame, Hand hand, boolean is_hidden, boolean is_players){
+    public DisplayHand(int x, int y, int direction, int tile_size_x, int tile_size_y, JFrame frame, Hand hand, boolean is_hidden, boolean is_players, boolean light_mode){
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -39,6 +39,7 @@ public class DisplayHand {
         this.raw_hand = hand;
         this.is_hidden = is_hidden;
         this.is_players = is_players;
+        this.light_mode = light_mode;
 
         update();
     }
@@ -51,7 +52,7 @@ public class DisplayHand {
         jbutton_hand = new ArrayList<JButton>();
         for(int i = 0; i < raw_hand.group.size(); i++){
             if(is_hidden){jbutton_hand.add( new JButton(tile_assets.getIcon(direction)) );}
-            else{jbutton_hand.add( new JButton(tile_assets.getIcon(raw_hand.get(i),direction)) );}
+            else{jbutton_hand.add( new JButton(tile_assets.getIcon(raw_hand.get(i),direction, light_mode)));}
 
             JButton temp_button = jbutton_hand.get(i);
             temp_button.setBorderPainted(false);

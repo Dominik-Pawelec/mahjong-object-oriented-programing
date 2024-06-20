@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 public class Game {
     List<Player> players;
+    int scores[] = {0,0,0,0};
     String round_wind;
     int start_index;
     JFrame frame;
@@ -23,16 +24,17 @@ public class Game {
     DisplayGame display;
     int curr_player_index;
 
-    boolean audio_on = true;
+    boolean audio_on;
 
     public Game(){
         players = new ArrayList<Player>();
     }
 
-    public Game(Player p1, JFrame frame){
+    public Game(Player p1, JFrame frame, boolean audio_on){
         players = new ArrayList<Player>();
         players.add(p1);
         this.frame = frame;
+        this.audio_on = audio_on;
     }
 
     public void startHanchan(){
@@ -90,7 +92,7 @@ public class Game {
             for(int i = 0; i < 13; i++){
                 players.get(p).draw();
             }
-            players.get(p).hand.sort();
+            
         }
 
         players.get((0 + start_index) % 4).setWind("east");
@@ -112,6 +114,7 @@ public class Game {
             display.display_hands.get(i).hideHand();
         }
         display.display_hands.get(winner_index).showHand();
+        scores[winner_index] += 1;
         //changing winds
         if(!players.get(winner_index).getWind().equals("east")){
             start_index ++;
@@ -154,6 +157,7 @@ public class Game {
     }
 
     public void endResults(){
+        display.reset();
         System.out.println("GAME HAS ENDED SUCCESFULLY");
     }
     
@@ -220,6 +224,9 @@ public class Game {
             if(start_index > 3){// + zalezne od kasy graczy
                 endResults();
                 return;
+            }
+            for(int i = 0; i < 4; i++){
+                players.get(i).hand.sort();
             }
             while(Wall.getInstance().size() > 14 && !someone_win){
                 takeTurn();

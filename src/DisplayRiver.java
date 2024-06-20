@@ -9,12 +9,13 @@ public class DisplayRiver{
     JFrame frame;
     int x, y, d, w, h;
     int richiiTile = 100;
-    Boolean light;
+    boolean light_mode;
 
-    public DisplayRiver(int x, int y, JFrame frame, int direction, Boolean light){
+    public DisplayRiver(int x, int y, JFrame frame, int direction, boolean light_mode){
         this.frame = frame;
         this.x = x;
         this.y = y;
+        this.light_mode = light_mode;
         d = direction;
         if(d%2 == 0) {
             w = 44;
@@ -24,7 +25,6 @@ public class DisplayRiver{
             w = 60;
             h = 44;
         }
-        this.light = light;
     }
 
     void setRichiiTile(){
@@ -36,7 +36,7 @@ public class DisplayRiver{
         JButton temp = new JButton();
         int s = river.size();
         if(s == richiiTile){
-            temp = new JButton(tile_assets.getIcon(tile, d+1/* , light*/));
+            temp = new JButton(tile_assets.getIcon(tile, d+1, light_mode));
             if(s < 18){
                 if(d == 0)temp.setBounds(x + w * (s % 6), y + h * (s / 6), h, w);
                 if(d == 1)temp.setBounds(x + w * (s / 6), y - h * (s % 6), h, w);
@@ -51,7 +51,7 @@ public class DisplayRiver{
             }
         }
         else{
-            temp = new JButton(tile_assets.getIcon(tile, d/* , light*/));
+            temp = new JButton(tile_assets.getIcon(tile, d, light_mode));
             s = river.size();
             if(s > richiiTile && s / 6 == richiiTile / 6){
                 if(s < 18){

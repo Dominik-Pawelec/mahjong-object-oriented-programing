@@ -125,13 +125,15 @@ public class Calls {
     }
 
     public void showCalls(boolean[] available){
-        appear.setMicrosecondPosition(0);
         int tempX = x;
         buttons.get(0).setVisible(true);
         buttons.get(0).setBounds(tempX, y, 130, 60);
 
         tempX -= 140;
-        if(audio_on) appear.start();
+        if(audio_on) {
+            appear.setMicrosecondPosition(0);
+            appear.start();
+        }
         for(int i = 0; i < available.length; i++){
             if(available[i]) {
                 buttons.get(i).setBounds(tempX, y, 130, 60);
@@ -187,8 +189,10 @@ public class Calls {
             }
         }
         try {
-            click.setMicrosecondPosition(0);
-            if(audio_on) click.start();
+            if(audio_on) {
+                click.setMicrosecondPosition(0);
+                click.start();
+            }
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();

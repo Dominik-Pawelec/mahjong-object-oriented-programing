@@ -14,11 +14,13 @@ public class DisplayOpened {
     int curr_x;
     int curr_y;
     int w,h, nr;
+    boolean light_mode;
     
 
-    public DisplayOpened(int x, int y, JFrame frame, int direction, Boolean light){
+    public DisplayOpened(int x, int y, JFrame frame, int direction, boolean light_mode){
         this.frame = frame;
         this.d = direction;
+        this.light_mode = light_mode;
         curr_x = x;
         start_x = x;
         curr_y = y;
@@ -36,9 +38,10 @@ public class DisplayOpened {
 
     public void displayNewBlock(TileGroup t){
         for(int i = 0; i < 3; i++){
-            tiles.add(new JButton(tile_assets.getIcon(t.get(i), d /* , light*/)));
-
-            JButton temp2 = tiles.get(i + nr);
+            tiles.add(new JButton(tile_assets.getIcon(t.get(i), d, light_mode)));
+        }
+        for(int i = 0; i < 3; i++){
+            JButton temp2 = tiles.get((2-i)+ nr);
             temp2.setFocusPainted(false);
             temp2.setBorderPainted(false);
             temp2.setContentAreaFilled(false);

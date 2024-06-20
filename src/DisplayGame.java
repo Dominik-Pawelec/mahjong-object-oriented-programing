@@ -18,12 +18,15 @@ public class DisplayGame {
 
     ArrayList<JButton> riichis = new ArrayList<>();
 
-    public DisplayGame(JFrame frame, Game game){
+    boolean light_mode;
+
+    public DisplayGame(JFrame frame, Game game, boolean light_mode, boolean audio_on){
         this.frame = frame;
         this.game = game;
-        calls = new Calls(frame, 750, 750, true); 
+        calls = new Calls(frame, 750, 750, audio_on); 
 
         flag = true;
+        this.light_mode = light_mode;
     }
     
     void reset(){
@@ -48,22 +51,22 @@ public class DisplayGame {
             }
 
             display_hands = new ArrayList<>(); 
-            display_hands.add(new DisplayHand(164, 840, 0, 44, 60, frame, game.players.get(0).hand,false,true));
-            display_hands.add(new DisplayHand(840, 692, 1, 60, 44, frame, game.players.get(1).hand,true,false));
-            display_hands.add(new DisplayHand(692, 0, 2, 44, 60, frame, game.players.get(2).hand,true,false));
-            display_hands.add(new DisplayHand(0, 164, 3, 60, 44, frame, game.players.get(3).hand,true,false));
+            display_hands.add(new DisplayHand(164, 840, 0, 44, 60, frame, game.players.get(0).hand,false,true,light_mode));
+            display_hands.add(new DisplayHand(840, 692, 1, 60, 44, frame, game.players.get(1).hand,true,false,light_mode));
+            display_hands.add(new DisplayHand(692, 0, 2, 44, 60, frame, game.players.get(2).hand,true,false,light_mode));
+            display_hands.add(new DisplayHand(0, 164, 3, 60, 44, frame, game.players.get(3).hand,true,false,light_mode));
 
 
             display_rivers = new ArrayList<>();
-            display_rivers.add(new DisplayRiver(300, 600, frame, 0, false));
-            display_rivers.add(new DisplayRiver(600, 600, frame, 1, false));
-            display_rivers.add(new DisplayRiver(600, 300, frame, 2, false));
-            display_rivers.add(new DisplayRiver(300, 300, frame, 3, false));
+            display_rivers.add(new DisplayRiver(300, 600, frame, 0, light_mode));
+            display_rivers.add(new DisplayRiver(600, 600, frame, 1, light_mode));
+            display_rivers.add(new DisplayRiver(600, 300, frame, 2, light_mode));
+            display_rivers.add(new DisplayRiver(300, 300, frame, 3, light_mode));
 
-            display_opened.add(new DisplayOpened(856, 840, frame, 0, false));
-            display_opened.add(new DisplayOpened(840, 0, frame, 1, false));
-            display_opened.add(new DisplayOpened(0, 0, frame, 2, false));
-            display_opened.add(new DisplayOpened(0, 856, frame, 3, false));
+            display_opened.add(new DisplayOpened(856, 840, frame, 0, light_mode));
+            display_opened.add(new DisplayOpened(840, 0, frame, 1, light_mode));
+            display_opened.add(new DisplayOpened(0, 0, frame, 2, light_mode));
+            display_opened.add(new DisplayOpened(0, 856, frame, 3, light_mode));
 
             riichis = new ArrayList<>();
 

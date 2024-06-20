@@ -2,6 +2,8 @@ import java.util.List;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
+import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +18,8 @@ public class Main {
 
     public static void main(String[] args)
     {
+        
+        
         frame.setResizable(false);
         panel.setPreferredSize(new Dimension(900, 900));
         panel.setBackground(new Color(246, 210, 235));
@@ -33,10 +37,12 @@ public class Main {
                 Thread.sleep(100);
             }catch(Exception e){}
         }
-        Game game = new Game(new Human(), frame);
-        DisplayGame display = new DisplayGame(frame, game);
+        Game game = new Game(new Human(), frame, menu.getAudio());
+        DisplayGame display = new DisplayGame(frame, game, menu.getLight(),menu.getAudio());
         game.startHanchan(display);
         game.prepareRound();
         game.start();
+
+        
     }
 }
