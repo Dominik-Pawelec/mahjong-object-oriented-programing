@@ -46,13 +46,22 @@ public class Player{
         CallPackage output_package = new CallPackage(input_package); 
         Tile temp_tile = output_package.getTile();
 
+        //prepares list of all calls and makes player choose one of them (choosing is part of player's interface)
+        List<String> possible_calls = new ArrayList<String>(0);
+
         if(getWind().equals(input_package.getWind()) || getRiichi()){
+            if(canRon(temp_tile)){
+                possible_calls.add("ron");
+                String chosen_call = chooseCall(possible_calls, input_package.getTile());
+                if(chosen_call=="ron"){
+                output_package.preparePackage(true, chosen_call, new TileGroup());
+                return output_package;
+                }
+            }
             output_package.preparePackage();
             return output_package;
         }
 
-        //prepares list of all calls and makes player choose one of them (choosing is part of player's interface)
-        List<String> possible_calls = new ArrayList<String>(0);
         String[] wind_list = new String[]{"east","south","west","north"};
         if(canChi(temp_tile) && (wind_list[(Arrays.asList(wind_list).indexOf(output_package.getWind())+1)%4] == wind)){ //whatthefuck
             possible_calls.add("chi");

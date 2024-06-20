@@ -51,7 +51,7 @@ public class Human extends Player {
         System.out.print("TSUMO? (Y/n)");
         
         if(display_game != null){
-            boolean[] temp = {false,false,false,false,true,false};
+            boolean[] temp = {true,false,false,false,true,false};
             if ("tsumo" == display_game.calls.getCall(temp)) return true;
             return false;
         }

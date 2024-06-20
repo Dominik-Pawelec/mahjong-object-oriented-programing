@@ -92,19 +92,17 @@ public class DisplayRiver{
     }
 
     void removeLastTile(){
-        //Tile out = river_tiles.get(river_tiles.size() - 1);
         frame.remove(river.get(river.size() - 1));
         river_tiles.remove(river_tiles.size() - 1);
         river.remove(river.size() - 1);
         frame.repaint();
-        //return out;
     }
 
     public void destroy(){
         for (JButton tile : river) {
             frame.getContentPane().remove(tile);
         }
-        river.removeAll(river);
+        river = new ArrayList<>();
         frame.repaint();
         richiiTile = 100;
     }
